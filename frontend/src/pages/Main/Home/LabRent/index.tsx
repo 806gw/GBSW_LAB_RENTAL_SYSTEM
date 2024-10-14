@@ -6,6 +6,7 @@ import { customAxios } from "@src/api/axios";
 import GBSW from '@media/GBSW.webp';
 import trash from '@assets/trash.svg';
 import { FaArrowRight } from "react-icons/fa";
+import { useAuthContext } from "@src/context/AuthContext";
 
 interface Lab {
     userId: number;
@@ -23,6 +24,7 @@ const LabRent: React.FC = () => {
     const [rentalRequests, setRentalRequests] = useState<Lab[]>([]);
     const [userId, setUserId] = useState<number | null>(null);
     const [isLoading, setIsLoading] = useState(false);
+    const { name } = useAuthContext()
 
     useEffect(() => {
         fetchAvailableLabs();
@@ -80,7 +82,10 @@ const LabRent: React.FC = () => {
                             </S.NoticeSubCont>
                         </S.NoticeCont>
                     </S.Header>
-
+                    <S.StudentHeader>
+                        <h1>안녕하세요, <span style={{ color: "rgb(19, 99, 223)" }}>{name}</span>님</h1>
+                        <button onClick={fetchAvailableLabs}>조회</button>
+                    </S.StudentHeader>
                     <S.Body>
                         <S.BodyWrap>
                             <S.RentalCont>

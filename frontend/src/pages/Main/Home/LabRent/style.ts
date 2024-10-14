@@ -33,6 +33,27 @@ export const Header = styled.div`
   padding: 20px 0;
 `;
 
+export const StudentHeader = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 1080px;
+  height: auto;
+  font-size: 10px;
+  margin-top: 30px;
+
+  & > button {
+    background: #474747;
+    border: none;
+    border-radius: 4px;
+    color: #fff;
+    height: 2.5rem;
+    width: 5rem;
+    cursor: pointer;
+  }
+`;
+
 export const RentCont = styled.div`
   border: 1px solid #d9d9d9;
   border-radius: 30px;

@@ -1,6 +1,5 @@
 import * as C from "@src/allFiles";
 import * as S from "./style";
-
 import React, { useState, useEffect } from 'react';
 import { customAxios } from "@src/api/axios";
 
@@ -17,20 +16,17 @@ interface Lab {
 const RentDel: React.FC = () => {
     const [deletionLab, setDeletionLab] = useState<Lab[]>([]);
     const [isLoading, setIsLoading] = useState(false);
+    const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
 
     useEffect(() => {
         const fetchDataAndAdminCheck = async () => {
-            try {
-                await FetchDeletionLab();
-            } catch (error) {
-                console.error(error);
-            }
+            await handleFetchDeletionLab();
         };
 
         fetchDataAndAdminCheck();
     }, []);
 
-    const FetchDeletionLab = async () => {
+    const handleFetchDeletionLab = async () => {
         setIsLoading(true);
         const accessToken = localStorage.getItem('accessToken');
         try {
@@ -63,12 +59,22 @@ const RentDel: React.FC = () => {
             );
             if (response) {
                 alert('랩실 신청을 삭제했습니다.');
-                window.location.reload();
+                setDeletionLab((prev) => prev.filter(request => request.userId !== userid));
             }
         } catch (error) {
             console.error(error);
             alert('삭제 실패.');
         }
+    };
+
+    const sortedDeletionLab = [...deletionLab].sort((a, b) => {
+        return sortOrder === 'asc'
+            ? new Date(a.rentalDate).getTime() - new Date(b.rentalDate).getTime()
+            : new Date(b.rentalDate).getTime() - new Date(a.rentalDate).getTime();
+    });
+
+    const handleSortChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+        setSortOrder(event.target.value as 'asc' | 'desc');
     };
 
     return (
@@ -77,10 +83,15 @@ const RentDel: React.FC = () => {
             <S.TopCont>
                 <S.Parent>
                     <S.Header>
-                        <h1><span style={{ color: "rgb(19, 99, 223)" }}>랩실 대여 삭제</span> 페이지입니다.</h1>
-                        <button onClick={FetchDeletionLab}>조회</button>
+                        <p><span style={{ color: "rgb(19, 99, 223)" }}>랩실 대여 삭제</span> 페이지입니다.</p>
+                        <div>
+                            <select id="sortOrder" value={sortOrder} onChange={handleSortChange}>
+                                <option value="asc">날짜 오름차순</option>
+                                <option value="desc">날짜 내림차순</option>
+                            </select>
+                            <button onClick={handleFetchDeletionLab}>조회</button> {/* 조회 버튼 클릭 시 데이터 로드 */}
+                        </div>
                     </S.Header>
-
                     <S.Body>
                         <S.BodyWrap>
                             <S.RentalCont>
@@ -96,14 +107,12 @@ const RentDel: React.FC = () => {
                                 <C.Loading />
                             ) : (
                                 <S.DeleteCont>
-                                    {deletionLab.length > 0 ? (
-                                        deletionLab.map((request) => (
+                                    {sortedDeletionLab.length > 0 ? (
+                                        sortedDeletionLab.map((request) => (
                                             <S.RentalUserWrap key={request.userId}>
                                                 <S.Tooltip className="user_detail">
                                                     <p className="user_detail">
-                                                        {request.hopeLab.length > 11 ?
-                                                            request.hopeLab.slice(0, 11) + '...'
-                                                            : request.hopeLab}
+                                                        {request.hopeLab.length > 11 ? request.hopeLab.slice(0, 11) + '...' : request.hopeLab}
                                                     </p>
                                                     {request.hopeLab.length > 11 && (
                                                         <span className="tooltiptext">{request.hopeLab}</span>
@@ -112,9 +121,7 @@ const RentDel: React.FC = () => {
                                                 <p className="user_detail">{request.rentalUser}</p>
                                                 <S.Tooltip className="user_detail">
                                                     <span>
-                                                        {request.rentalUsers.length > 16
-                                                            ? request.rentalUsers.slice(0, 16) + '...'
-                                                            : request.rentalUsers}
+                                                        {request.rentalUsers.length > 16 ? request.rentalUsers.slice(0, 16) + '...' : request.rentalUsers}
                                                     </span>
                                                     {request.rentalUsers.length > 16 && (
                                                         <span className="tooltiptext">{request.rentalUsers}</span>
@@ -122,9 +129,7 @@ const RentDel: React.FC = () => {
                                                 </S.Tooltip>
                                                 <S.Tooltip className="user_detail">
                                                     <span>
-                                                        {request.rentalPurpose.length > 16
-                                                            ? request.rentalPurpose.slice(0, 16) + '...'
-                                                            : request.rentalPurpose}
+                                                        {request.rentalPurpose.length > 16 ? request.rentalPurpose.slice(0, 16) + '...' : request.rentalPurpose}
                                                     </span>
                                                     {request.rentalPurpose.length > 16 && (
                                                         <span className="tooltiptext">{request.rentalPurpose}</span>

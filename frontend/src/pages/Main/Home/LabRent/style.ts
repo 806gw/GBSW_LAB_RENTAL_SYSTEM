@@ -40,10 +40,40 @@ export const StudentHeader = styled.div`
   width: 100%;
   max-width: 1080px;
   height: auto;
-  font-size: 10px;
   margin-top: 30px;
 
-  & > button {
+  & > p {
+    font-size: 18px;
+  }
+
+  & > div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+  }
+
+  & > div > select {
+    background-color: #fff;
+    background-position: right 1rem center;
+    background-repeat: no-repeat;
+    background-size: 1em;
+    border: none;
+    border-radius: 5px;
+    box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.1), 0 0 1px 0 rgba(0, 0, 0, 0.1);
+    color: #3b2920;
+    font-size: 0.9rem;
+    height: 2.5rem;
+    margin-right: 1.2rem;
+    outline: none;
+    text-align: center;
+    text-align-last: center;
+    -ms-text-align-last: center;
+    -moz-text-align-last: center;
+    width: 8rem;
+  }
+
+  & > div > button {
     background: #474747;
     border: none;
     border-radius: 4px;

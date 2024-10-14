@@ -93,6 +93,7 @@ const LabEnroll = () => {
                                 type="date"
                                 name="rentalDate"
                                 value={rentalDate}
+                                placeholder="대여희망일"
                                 onChange={(e) => setRentalDate(e.target.value)}
                                 required
                             />
@@ -101,6 +102,7 @@ const LabEnroll = () => {
                                 type="text"
                                 name="rentalUser"
                                 value={rentalUser}
+                                placeholder="대표자 이름 기재 (반 / 이름)"
                                 onChange={(e) => setRentalUser(e.target.value)}
                                 required
                             />
@@ -109,6 +111,7 @@ const LabEnroll = () => {
                                 type="text"
                                 name="rentalUsers"
                                 value={rentalUsers}
+                                placeholder="사용 인원 전원 기재 (반 / 이름)"
                                 onChange={(e) => setRentalUsers(e.target.value)}
                                 required
                             />

@@ -45,8 +45,10 @@ const TeacherScreen: React.FC = () => {
             <S.TopCont>
                 <S.Parent>
                     <S.Header>
-                        <h1>안녕하세요, <span style={{ color: "rgb(19, 99, 223)" }}>{name}</span></h1>
-                        <button onClick={fetchAvailableLabs}>조회</button>
+                        <p>안녕하세요, <span style={{ color: "rgb(19, 99, 223)" }}>{name}</span></p>
+                        <div>
+                            <button onClick={fetchAvailableLabs}>조회</button>
+                        </div>
                     </S.Header>
                     <S.Body>
                         <S.BodyWrap>

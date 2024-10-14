@@ -31,8 +31,9 @@ export const SidebarWrap = styled.div`
     width: 210px;
   }
 
-  h3 {
-    font-size: 21px;
+  p {
+    font-size: 18px;
+    font-weight: 900;
     margin-top: 20px;
     color: red;
   }

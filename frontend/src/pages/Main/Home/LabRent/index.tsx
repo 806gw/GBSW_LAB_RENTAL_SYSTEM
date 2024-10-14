@@ -1,7 +1,6 @@
+import React, { useState, useEffect } from 'react';
 import * as C from "@src/allFiles";
 import * as S from "./style";
-
-import React, { useState, useEffect } from 'react';
 import { customAxios } from "@src/api/axios";
 import GBSW from '@media/GBSW.webp';
 import trash from '@assets/trash.svg';
@@ -24,7 +23,8 @@ const LabRent: React.FC = () => {
     const [rentalRequests, setRentalRequests] = useState<Lab[]>([]);
     const [userId, setUserId] = useState<number | null>(null);
     const [isLoading, setIsLoading] = useState(false);
-    const { name } = useAuthContext()
+    const { name } = useAuthContext();
+    const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc');
 
     useEffect(() => {
         fetchAvailableLabs();
@@ -48,6 +48,16 @@ const LabRent: React.FC = () => {
     };
 
     const closeModal = () => setOpen(false);
+
+    const sortedRequests = [...rentalRequests].sort((a, b) => {
+        return sortOrder === 'asc'
+            ? new Date(a.rentalDate).getTime() - new Date(b.rentalDate).getTime()
+            : new Date(b.rentalDate).getTime() - new Date(a.rentalDate).getTime();
+    });
+
+    const handleSortChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+        setSortOrder(event.target.value as 'asc' | 'desc');
+    };
 
     return (
         <>
@@ -83,8 +93,14 @@ const LabRent: React.FC = () => {
                         </S.NoticeCont>
                     </S.Header>
                     <S.StudentHeader>
-                        <h1>안녕하세요, <span style={{ color: "rgb(19, 99, 223)" }}>{name}</span>님</h1>
-                        <button onClick={fetchAvailableLabs}>조회</button>
+                        <p>안녕하세요, <span style={{ color: "rgb(19, 99, 223)" }}>{name}</span>님</p>
+                        <div>
+                            <select id="sortOrder" value={sortOrder} onChange={handleSortChange}>
+                                <option value="desc">날짜 오름차</option>
+                                <option value="asc">날짜 내림차</option>
+                            </select>
+                            <button onClick={fetchAvailableLabs}>조회</button>
+                        </div>
                     </S.StudentHeader>
                     <S.Body>
                         <S.BodyWrap>
@@ -100,15 +116,13 @@ const LabRent: React.FC = () => {
 
                             {isLoading ? (
                                 <C.Loading />
-                            ) : rentalRequests.length > 0 ? (
+                            ) : sortedRequests.length > 0 ? (
                                 <S.RentalUserCont>
-                                    {rentalRequests.map((request) => (
+                                    {sortedRequests.map((request) => (
                                         <S.RentalUserWrap key={request.userId}>
                                             <S.Tooltip className="user_detail">
                                                 <span>
-                                                    {request.labName.length > 11 ?
-                                                        request.labName.slice(0, 11) + '...'
-                                                        : request.labName}
+                                                    {request.labName.length > 11 ? request.labName.slice(0, 11) + '...' : request.labName}
                                                 </span>
                                                 {request.labName.length > 11 && (
                                                     <span className="tooltiptext">{request.labName}</span>
@@ -117,9 +131,7 @@ const LabRent: React.FC = () => {
                                             <p className="user_detail">{request.rentalUser}</p>
                                             <S.Tooltip className="user_detail">
                                                 <span>
-                                                    {request.rentalUsers.length > 16
-                                                        ? request.rentalUsers.slice(0, 16) + '..'
-                                                        : request.rentalUsers}
+                                                    {request.rentalUsers.length > 16 ? request.rentalUsers.slice(0, 16) + '..' : request.rentalUsers}
                                                 </span>
                                                 {request.rentalUsers.length > 16 && (
                                                     <span className="tooltiptext">{request.rentalUsers}</span>
@@ -127,9 +139,7 @@ const LabRent: React.FC = () => {
                                             </S.Tooltip>
                                             <S.Tooltip className="user_detail">
                                                 <span>
-                                                    {request.rentalPurpose.length > 16
-                                                        ? request.rentalPurpose.slice(0, 16) + '...'
-                                                        : request.rentalPurpose}
+                                                    {request.rentalPurpose.length > 16 ? request.rentalPurpose.slice(0, 16) + '...' : request.rentalPurpose}
                                                 </span>
                                                 {request.rentalPurpose.length > 16 && (
                                                     <span className="tooltiptext">{request.rentalPurpose}</span>
@@ -138,7 +148,7 @@ const LabRent: React.FC = () => {
                                             <p className="user_detail">{request.rentalDate}</p>
                                             <p className="user_detail">{request.rentalStartTime}</p>
                                             {request.deletionRental ? (
-                                                <div style={{ flex: 1, textAlign: "center" }}>대기중</div>
+                                                <div className='user_detail'>대기중</div>
                                             ) : (
                                                 <div className="user_detail" onClick={() => openModal(request.userId)}>
                                                     <img

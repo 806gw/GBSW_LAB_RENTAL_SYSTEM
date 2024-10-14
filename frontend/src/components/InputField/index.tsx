@@ -15,6 +15,7 @@ interface InputFieldProps {
     value: string;
     onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
     required?: boolean;
+    placeholder: string;
 }
 
 const InputField: React.FC<InputFieldProps> = ({
@@ -24,6 +25,7 @@ const InputField: React.FC<InputFieldProps> = ({
     value,
     onChange,
     required = false,
+    placeholder
 }) => {
     const today = getTodayDate();
 
@@ -36,6 +38,7 @@ const InputField: React.FC<InputFieldProps> = ({
                 value={value}
                 onChange={onChange}
                 required={required}
+                placeholder={placeholder}
                 min={type === "date" ? today : undefined}
             />
         </S.InputCont>

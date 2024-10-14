@@ -3,9 +3,9 @@ import * as S from "./style";
 
 import React, { useState, useEffect } from 'react';
 import { customAxios } from "@src/api/axios";
-import Arrow from '@assets/arrow.svg';
 import GBSW from '@media/GBSW.webp';
 import trash from '@assets/trash.svg';
+import { FaArrowRight } from "react-icons/fa";
 
 interface Lab {
     userId: number;
@@ -15,7 +15,7 @@ interface Lab {
     rentalUsers: string;
     rentalPurpose: string;
     deletionRental: boolean;
-    hopeLab: string;
+    labName: string;
 }
 
 const LabRent: React.FC = () => {
@@ -57,7 +57,7 @@ const LabRent: React.FC = () => {
                             <img src={GBSW} alt='경소고 로고' className='gbsw' />
                             <S.RentSubCont>
                                 <S.LinkRent to={'/labenroll'}>실습실 대여하기</S.LinkRent>
-                                <img src={Arrow} alt='오른쪽 표시 화살표' className='arrow' />
+                                <FaArrowRight className='arrow' />
                             </S.RentSubCont>
                         </S.RentCont>
                         <S.NoticeCont>
@@ -101,12 +101,12 @@ const LabRent: React.FC = () => {
                                         <S.RentalUserWrap key={request.userId}>
                                             <S.Tooltip className="user_detail">
                                                 <span>
-                                                    {request.hopeLab.length > 11 ?
-                                                        request.hopeLab.slice(0, 11) + '...'
-                                                        : request.hopeLab}
+                                                    {request.labName.length > 11 ?
+                                                        request.labName.slice(0, 11) + '...'
+                                                        : request.labName}
                                                 </span>
-                                                {request.hopeLab.length > 11 && (
-                                                    <span className="tooltiptext">{request.hopeLab}</span>
+                                                {request.labName.length > 11 && (
+                                                    <span className="tooltiptext">{request.labName}</span>
                                                 )}
                                             </S.Tooltip>
                                             <p className="user_detail">{request.rentalUser}</p>

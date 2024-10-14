@@ -13,7 +13,7 @@ interface Lab {
     rentalUser: string;
     rentalUsers: string;
     deletionRental: boolean;
-    hopeLab: string;
+    labName: string;
     location: string;
     available: boolean;
 }
@@ -67,12 +67,12 @@ const TeacherScreen: React.FC = () => {
                                             <S.RentalUserWrap key={request.userId}>
                                                 <S.Tooltip className="user_detail">
                                                     <p className="user_detail">
-                                                        {request.hopeLab.length > 11 ?
-                                                            request.hopeLab.slice(0, 11) + '...'
-                                                            : request.hopeLab}
+                                                        {request.labName.length > 11 ?
+                                                            request.labName.slice(0, 11) + '...'
+                                                            : request.labName}
                                                     </p>
-                                                    {request.hopeLab.length > 11 && (
-                                                        <span className="tooltiptext">{request.hopeLab}</span>
+                                                    {request.labName.length > 11 && (
+                                                        <span className="tooltiptext">{request.labName}</span>
                                                     )}
                                                 </S.Tooltip>
                                                 <p className="user_detail">{request.rentalUser}</p>

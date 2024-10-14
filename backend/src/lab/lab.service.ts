@@ -80,9 +80,10 @@ export class LabService {
     return { savedRequest, savedRequest2 };
   }
 
-  async getAllLabs(): Promise<LabEntity[]> {
-    // return await this.LabInformationEntity.find();
-    return this.labRepository.find();
+  async getAllLabs(): Promise<LabInformationEntity[]> {
+    return await this.LabInformationEntity.find({
+      where: {},
+    });
   }
 
   async verifyToken(token: string): Promise<any> {

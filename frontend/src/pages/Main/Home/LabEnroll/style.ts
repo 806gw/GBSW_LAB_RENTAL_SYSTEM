@@ -43,7 +43,7 @@ export const FormCont = styled.div`
     height: 45px;
     border: none;
     border-radius: 10px;
-    background-color: #169dfe;
+    background-color: #0078ff;
     font-weight: 500;
     font-size: 1rem;
     font-family: "Pretendard";
@@ -53,7 +53,7 @@ export const FormCont = styled.div`
 
     &:hover {
       cursor: pointer;
-      background-color: #1387e6;
+      background-color: #0066cc;
     }
   }
 `;

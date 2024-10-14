@@ -51,21 +51,18 @@ export const RentCont = styled.div`
     height: 70px;
   }
   .arrow {
+    color: #0b0b0b;
     margin-left: 10px;
     width: 20px;
   }
 `;
 
 export const LinkRent = styled(Link)`
-  color: #6a96ec;
+  color: #0078ff;
   font-size: 18px;
   font-family: "Pretendard";
   font-weight: 900;
-  transition: color 0.2s ease-in-out;
   text-decoration: none;
-  &:hover {
-    color: #3067d4;
-  }
 `;
 
 export const RentSubCont = styled.div`

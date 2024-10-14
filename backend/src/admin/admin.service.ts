@@ -66,21 +66,21 @@ export class AdminService {
       { approvalStatus: ApprovalStatus.APPROVED },
     );
 
-    // const labInfo = this.labInformationRepository.create({
-    //   labName: lab.hopeLab,
-    //   Available: 1,
-    //   userId: lab.userId,
-    //   rentalUser: lab.rentalUser,
-    //   rentalUsers: lab.rentalUsers,
-    //   rentalPurpose: lab.rentalPurpose,
-    //   rentalStartTime: lab.rentalStartTime,
-    //   rentalDate: lab.rentalDate,
-    // });
+    const labInfo = this.labInformationRepository.create({
+      labName: lab.hopeLab,
+      Available: 1,
+      userId: lab.userId,
+      rentalUser: lab.rentalUser,
+      rentalUsers: lab.rentalUsers,
+      rentalPurpose: lab.rentalPurpose,
+      rentalStartTime: lab.rentalStartTime,
+      rentalDate: lab.rentalDate,
+    });
 
-    // const saveInfo = await this.labInformationRepository.save(labInfo);
+    const saveInfo = await this.labInformationRepository.save(labInfo);
 
     // return { affected: permitResult?.affected, saveInfo };
-    return { affected: permitResult?.affected };
+    return { affected: permitResult?.affected, saveInfo };
   }
 
   async getApprovalRequest(): Promise<LabEntity[]> {

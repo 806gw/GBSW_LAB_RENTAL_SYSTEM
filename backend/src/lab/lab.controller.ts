@@ -59,7 +59,7 @@ export class LabController {
   }
 
   @Get('/available')
-  async getAllLabs(): Promise<LabEntity[]> {
+  async getAllLabs(): Promise<LabInformationEntity[]> {
     return await this.labService.getAllLabs();
   }
 }

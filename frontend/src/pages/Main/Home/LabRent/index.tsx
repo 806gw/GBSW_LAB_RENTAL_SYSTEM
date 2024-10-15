@@ -6,6 +6,7 @@ import GBSW from '@media/GBSW.webp';
 import trash from '@assets/trash.svg';
 import { FaArrowRight } from "react-icons/fa";
 import { useAuthContext } from "@src/context/AuthContext";
+import { useNavigate } from 'react-router-dom';
 
 interface Lab {
     userId: number;
@@ -25,10 +26,23 @@ const LabRent: React.FC = () => {
     const [isLoading, setIsLoading] = useState(false);
     const { name } = useAuthContext();
     const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc');
+    const navigate = useNavigate();
 
     useEffect(() => {
         fetchAvailableLabs();
-    }, []);
+
+        window.history.pushState(null, '', window.location.href);
+
+        const handlePopState = () => {
+            navigate(0);
+        };
+
+        window.addEventListener('popstate', handlePopState);
+
+        return () => {
+            window.removeEventListener('popstate', handlePopState);
+        };
+    }, [navigate]);
 
     const fetchAvailableLabs = async () => {
         setIsLoading(true);
@@ -163,7 +177,7 @@ const LabRent: React.FC = () => {
                                 </S.RentalUserCont>
                             ) : (
                                 <S.NotRentTextWrap>
-                                    <p style={{ fontSize: 17 }}>아직 아무도 랩실 신청을 안했습니다.</p>
+                                    <p style={{ fontSize: 17 }}>아직 신청 완료된 랩실이 없습니다.</p>
                                 </S.NotRentTextWrap>
                             )}
                         </S.BodyWrap>

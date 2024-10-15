@@ -17,6 +17,8 @@ const RentApr: React.FC = () => {
     const [approvalLab, setApprovalLab] = useState<Lab[]>([]);
     const [isLoading, setIsLoading] = useState(false);
     const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc');
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [selectedUserId, setSelectedUserId] = useState<number | null>(null); // To hold the userId for approval
 
     useEffect(() => {
         const fetchDataAndAdminCheck = async () => {
@@ -71,6 +73,11 @@ const RentApr: React.FC = () => {
             console.error(error);
             alert('승인 실패.');
         }
+    };
+
+    const handleApprovalClick = (userId: number) => {
+        setSelectedUserId(userId);
+        setIsModalOpen(true);
     };
 
     const sortedApprovalLab = [...approvalLab].sort((a, b) => {
@@ -144,13 +151,13 @@ const RentApr: React.FC = () => {
                                                 <p className="user_detail">{request.rentalDate}</p>
                                                 <p className="user_detail">{request.rentalStartTime}</p>
                                                 <div className="user_detail">
-                                                    <button className="approval_btn" onClick={() => aprLab(request.userId)}>대여 승인</button>
+                                                    <button className="approval_btn" onClick={() => handleApprovalClick(request.userId)}>대여 승인</button>
                                                 </div>
                                             </S.RentalUserWrap>
                                         ))
                                     ) : (
                                         <S.NotRentTextWrap>
-                                            <p style={{ fontSize: 17 }}>아직 아무도 랩실 신청을 안했습니다.</p>
+                                            <p style={{ fontSize: 17 }}>아직 신청한 랩실이 없습니다.</p>
                                         </S.NotRentTextWrap>
                                     )}
                                 </S.ApprovalCont>
@@ -159,6 +166,14 @@ const RentApr: React.FC = () => {
                     </S.Body>
                 </S.Parent>
             </S.TopCont>
+            {/* Modal for approval confirmation */}
+            <C.TeacherModal
+                isOpen={isModalOpen}
+                onClose={() => setIsModalOpen(false)}
+                userId={selectedUserId}
+                actionType="apr"
+                actionFunction={aprLab}
+            />
         </>
     );
 };

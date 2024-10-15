@@ -1,5 +1,6 @@
 import * as C from "@src/allFiles";
 import * as S from "./style";
+
 import React, { useState, useEffect } from 'react';
 import { customAxios } from "@src/api/axios";
 
@@ -17,6 +18,8 @@ const RentDel: React.FC = () => {
     const [deletionLab, setDeletionLab] = useState<Lab[]>([]);
     const [isLoading, setIsLoading] = useState(false);
     const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [selectedUserId, setSelectedUserId] = useState<number | null>(null); // To hold the userId for deletion
 
     useEffect(() => {
         const fetchDataAndAdminCheck = async () => {
@@ -67,6 +70,11 @@ const RentDel: React.FC = () => {
         }
     };
 
+    const handleDeleteClick = (userId: number) => {
+        setSelectedUserId(userId);
+        setIsModalOpen(true);
+    };
+
     const sortedDeletionLab = [...deletionLab].sort((a, b) => {
         return sortOrder === 'asc'
             ? new Date(a.rentalDate).getTime() - new Date(b.rentalDate).getTime()
@@ -89,7 +97,7 @@ const RentDel: React.FC = () => {
                                 <option value="asc">날짜 오름차순</option>
                                 <option value="desc">날짜 내림차순</option>
                             </select>
-                            <button onClick={handleFetchDeletionLab}>조회</button> {/* 조회 버튼 클릭 시 데이터 로드 */}
+                            <button onClick={handleFetchDeletionLab}>조회</button>
                         </div>
                     </S.Header>
                     <S.Body>
@@ -138,13 +146,13 @@ const RentDel: React.FC = () => {
                                                 <p className="user_detail">{request.rentalDate}</p>
                                                 <p className="user_detail">{request.rentalStartTime}</p>
                                                 <div className="user_detail">
-                                                    <button className="approval_btn" onClick={() => delLab(request.userId)}>대여 삭제</button>
+                                                    <button className="approval_btn" onClick={() => handleDeleteClick(request.userId)}>대여 삭제</button>
                                                 </div>
                                             </S.RentalUserWrap>
                                         ))
                                     ) : (
                                         <S.NotRentTextWrap>
-                                            <p style={{ fontSize: 17 }}>아직 아무도 대여 취소 신청을 안했습니다.</p>
+                                            <p style={{ fontSize: 17 }}>아직 대여 취소 신청을 안했습니다.</p>
                                         </S.NotRentTextWrap>
                                     )}
                                 </S.DeleteCont>
@@ -153,6 +161,14 @@ const RentDel: React.FC = () => {
                     </S.Body>
                 </S.Parent>
             </S.TopCont>
+            {/* Modal for deletion confirmation */}
+            <C.TeacherModal
+                isOpen={isModalOpen}
+                onClose={() => setIsModalOpen(false)}
+                userId={selectedUserId}
+                actionType="del"
+                actionFunction={delLab}
+            />
         </>
     );
 };

@@ -1,18 +1,29 @@
-# 베이스 이미지 설정
-FROM node:20
+FROM alpine AS nodejs
 
-# 작업 디렉토리 생성
 WORKDIR /app
 
-# 애플리케이션 종속성 설치
-COPY package.json package-lock.json ./
-RUN npm install
+RUN apk add --no-cache nodejs
 
-# 애플리케이션 소스 코드 복사
-COPY . .
+# ---
 
-# 포트 노출
-EXPOSE 3000
+FROM nodejs AS npm
 
-# 애플리케이션 실행
-CMD ["npm", "run", "start:prod"]
+RUN apk add npm
+
+# ---
+
+FROM npm AS deps
+
+COPY package.json package-lock.json /app/
+
+RUN npm ci --omit=dev
+
+# ---
+
+FROM nodejs AS runtime
+
+COPY --from=deps /app/node_modules /app/node_modules
+
+COPY dist/main.js /app/main.js
+
+CMD [ "node", "main.js" ]

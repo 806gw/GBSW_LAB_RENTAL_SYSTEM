@@ -35,7 +35,7 @@ const StudentSide = () => {
 
     return (
         <>
-            <IoMenu onClick={toggleSidebar} style={{ cursor: "pointer", fontSize: "30px", position: "fixed" }} />
+            <IoMenu onClick={toggleSidebar} style={{ cursor: "pointer", fontSize: "30px", position: "fixed", margin: "10px" }} />
             {isOpen && <S.Overlay onClick={handleOverlayClick} />}
             <S.SidebarCont className={isOpen ? "active" : ""}>
                 <S.SidebarWrap>
@@ -46,13 +46,13 @@ const StudentSide = () => {
                     </S.NameWrap>
                 </S.SidebarWrap>
                 <S.ListCont>
-                    <S.LinkWrap to={"/labenroll"}>
+                    <S.LinkWrap to={"/student/rental"}>
                         <div>
                             <FaFileAlt className="link_logo" />
                             <span>랩실 대여하기</span>
                         </div>
                     </S.LinkWrap>
-                    <S.LinkWrap to={"/labrent"}>
+                    <S.LinkWrap to={"/student"}>
                         <div>
                             <FaWpforms className="link_logo" />
                             <span>대여 현황</span>

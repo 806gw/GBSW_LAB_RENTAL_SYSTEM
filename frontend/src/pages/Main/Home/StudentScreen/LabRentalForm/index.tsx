@@ -7,7 +7,7 @@ import { customAxios } from "@src/api/axios";
 import InputField from "@src/components/InputField";
 import SelectField from "@src/components/SelectField";
 
-const LabEnroll = () => {
+const LabRentalForm = () => {
     const [rentalDate, setRentalDate] = useState('');
     const [rentalUser, setRentalUser] = useState('');
     const [rentalUsers, setRentalUsers] = useState('');
@@ -150,4 +150,4 @@ const LabEnroll = () => {
     );
 };
 
-export default LabEnroll;
+export default LabRentalForm;

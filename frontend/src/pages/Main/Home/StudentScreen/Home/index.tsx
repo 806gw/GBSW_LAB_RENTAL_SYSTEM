@@ -19,7 +19,7 @@ interface Lab {
     labName: string;
 }
 
-const LabRent: React.FC = () => {
+const StudentScreen: React.FC = () => {
     const [isOpen, setOpen] = useState(false);
     const [rentalRequests, setRentalRequests] = useState<Lab[]>([]);
     const [userId, setUserId] = useState<number | null>(null);
@@ -195,4 +195,4 @@ const LabRent: React.FC = () => {
     );
 };
 
-export default LabRent;
+export default StudentScreen;

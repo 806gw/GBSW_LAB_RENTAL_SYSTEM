@@ -6,12 +6,12 @@ import Loading from "./components/Loading";
 import LabModal from "./components/Modal/Rab";
 import LogOutModal from "./components/Modal/LogOut";
 import TeacherModal from "./components/Modal/Teacher";
-import Landing from "./pages/Main/Landing";
-import LabEnroll from "./pages/Main/Home/LabEnroll";
-import LabRent from "./pages/Main/Home/LabRent";
+import Landing from "./pages/Landing";
+import LabRentalForm from "./pages/Main/Home/StudentScreen/LabRentalForm";
+import StudentScreen from "./pages/Main/Home/StudentScreen/Home";
 import TeacherScreen from "./pages/Main/Home/TeacherScreen/Home";
-import RentApr from "./pages/Main/Home/TeacherScreen/RentApr";
-import RentDel from "./pages/Main/Home/TeacherScreen/RentDel";
+import RentApproval from "./pages/Main/Home/TeacherScreen/RentApproval";
+import RentDeletion from "./pages/Main/Home/TeacherScreen/RentDeletion";
 
 export {
   LoginContainer,
@@ -23,9 +23,9 @@ export {
   LogOutModal,
   TeacherModal,
   Landing,
-  LabEnroll,
-  LabRent,
+  LabRentalForm,
+  StudentScreen,
   TeacherScreen,
-  RentApr,
-  RentDel,
+  RentApproval,
+  RentDeletion,
 };

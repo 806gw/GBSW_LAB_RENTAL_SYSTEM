@@ -17,7 +17,7 @@ const NotLoginSide = () => {
 
     return (
         <>
-            <IoMenu onClick={toggleSidebar} style={{ cursor: "pointer", fontSize: "30px" }} />
+            <IoMenu onClick={toggleSidebar} style={{ cursor: "pointer", fontSize: "30px", margin: "10px" }} />
             {isOpen && <S.Overlay onClick={handleOverlayClick} />}
             <S.SidebarCont className={isOpen ? "active" : ""}>
                 <S.SidebarWrap>

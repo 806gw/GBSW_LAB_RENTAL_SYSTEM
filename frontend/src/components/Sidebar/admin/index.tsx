@@ -36,7 +36,7 @@ const TeacherSide = () => {
 
     return (
         <>
-            <IoMenu onClick={toggleSidebar} style={{ cursor: "pointer", fontSize: "30px", position: "fixed" }} />
+            <IoMenu onClick={toggleSidebar} style={{ cursor: "pointer", fontSize: "30px", position: "fixed", margin: "10px" }} />
             {isOpen && <S.Overlay onClick={handleOverlayClick} />}
             <S.SidebarCont className={isOpen ? "active" : ""}>
                 <S.SidebarWrap>
@@ -47,16 +47,16 @@ const TeacherSide = () => {
                     </S.NameWrap>
                 </S.SidebarWrap>
                 <S.ListCont>
-                    <S.LinkWrap to={"/rentapr"}>
+                    <S.LinkWrap to={"/admin/approval"}>
                         <div>
                             <FaFileAlt className="link_logo" />
                             <span>대여 요청 보기</span>
                         </div>
                     </S.LinkWrap>
-                    <S.LinkWrap to={"/rentdel"}>
+                    <S.LinkWrap to={"/admin/deletion"}>
                         <div>
                             <RiDeleteBin5Fill className="link_logo" />
-                            <span>삭제 요청 보기    </span>
+                            <span>삭제 요청 보기</span>
                         </div>
                     </S.LinkWrap>
                     <S.LinkWrap to={"/admin"}>

@@ -1,6 +1,11 @@
 import styled from "styled-components";
 import SchoolFullImg from "@media/SchoolFull.png";
 
+export const Container = styled.div`
+  overflow: hidden;
+  height: 94vh;
+`;
+
 export const TopCont = styled.div`
   min-width: 1400px;
   font-family: "IBM Plex Sans KR", sans-serif;

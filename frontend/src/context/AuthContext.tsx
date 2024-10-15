@@ -11,7 +11,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const [name, setName] = useState<string | null>(localStorage.getItem("userName") || null);
     useEffect(() => {
         if (name) {
-            localStorage.setItem("userName", name); // name이 변경될 때마다 업데이트
+            localStorage.setItem("userName", name);
         }
     }, [name]);
 
@@ -25,7 +25,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 export const useAuthContext = () => {
     const context = useContext(AuthContext);
     if (context === undefined) {
-        throw new Error("useAuthContext must be used within an AuthProvider");
+        throw new Error("context is undefined");
     }
     return context;
 };

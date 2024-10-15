@@ -49,7 +49,7 @@ const useAuth = () => {
       if (userAuthorities[0] === "ROLE_ADMIN") {
         navigate("/admin");
       } else if (userAuthorities[0] === "ROLE_USER") {
-        navigate("/labrent");
+        navigate("/student");
       } else {
         console.log("알 수 없는 권한:", userAuthorities);
       }

@@ -1,6 +1,5 @@
 import * as C from "@src/allFiles";
 import * as S from "./style";
-
 import React, { useState, useEffect } from 'react';
 import { customAxios } from "@src/api/axios";
 
@@ -14,34 +13,39 @@ interface Lab {
     hopeLab: string;
 }
 
-const RentDel: React.FC = () => {
-    const [deletionLab, setDeletionLab] = useState<Lab[]>([]);
+const RentApproval: React.FC = () => {
+    const [approvalLab, setApprovalLab] = useState<Lab[]>([]);
     const [isLoading, setIsLoading] = useState(false);
-    const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
+    const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc');
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [selectedUserId, setSelectedUserId] = useState<number | null>(null); // To hold the userId for deletion
+    const [selectedUserId, setSelectedUserId] = useState<number | null>(null); // To hold the userId for approval
 
     useEffect(() => {
         const fetchDataAndAdminCheck = async () => {
-            await handleFetchDeletionLab();
+            try {
+                await fetchApprovalLab();
+            } catch (error) {
+                console.error(error);
+            }
         };
 
         fetchDataAndAdminCheck();
     }, []);
 
-    const handleFetchDeletionLab = async () => {
+    const fetchApprovalLab = async () => {
         setIsLoading(true);
         const accessToken = localStorage.getItem('accessToken');
         try {
             const response = await customAxios.post(
-                `/admin/deletionRental`, {},
+                `/admin/approvalRental`, {},
                 {
                     headers: {
                         Authorization: `Bearer ${accessToken}`
                     }
                 }
             );
-            setDeletionLab(response.data);
+
+            setApprovalLab(response.data);
         } catch (error) {
             console.error(error);
         } finally {
@@ -49,33 +53,34 @@ const RentDel: React.FC = () => {
         }
     };
 
-    const delLab = async (userid: number) => {
+    const aprLab = async (userid: number) => {
         const accessToken = localStorage.getItem('accessToken');
         try {
-            const response = await customAxios.delete(
-                `/admin/${userid}`,
+            const response = await customAxios.patch(
+                `/admin/${userid}`, {},
                 {
                     headers: {
                         Authorization: `Bearer ${accessToken}`
                     }
                 }
             );
+
             if (response) {
-                alert('랩실 신청을 삭제했습니다.');
-                setDeletionLab((prev) => prev.filter(request => request.userId !== userid));
+                alert('랩실 승인이 성공하였습니다.');
+                window.location.reload();
             }
         } catch (error) {
             console.error(error);
-            alert('삭제 실패.');
+            alert('승인 실패.');
         }
     };
 
-    const handleDeleteClick = (userId: number) => {
+    const handleApprovalClick = (userId: number) => {
         setSelectedUserId(userId);
         setIsModalOpen(true);
     };
 
-    const sortedDeletionLab = [...deletionLab].sort((a, b) => {
+    const sortedApprovalLab = [...approvalLab].sort((a, b) => {
         return sortOrder === 'asc'
             ? new Date(a.rentalDate).getTime() - new Date(b.rentalDate).getTime()
             : new Date(b.rentalDate).getTime() - new Date(a.rentalDate).getTime();
@@ -91,13 +96,13 @@ const RentDel: React.FC = () => {
             <S.TopCont>
                 <S.Parent>
                     <S.Header>
-                        <p><span style={{ color: "rgb(19, 99, 223)" }}>랩실 대여 삭제</span> 페이지입니다.</p>
+                        <p><span style={{ color: "rgb(19, 99, 223)" }}>랩실 대여 승인</span> 페이지입니다.</p>
                         <div>
                             <select id="sortOrder" value={sortOrder} onChange={handleSortChange}>
                                 <option value="asc">날짜 오름차순</option>
                                 <option value="desc">날짜 내림차순</option>
                             </select>
-                            <button onClick={handleFetchDeletionLab}>조회</button>
+                            <button onClick={fetchApprovalLab}>조회</button>
                         </div>
                     </S.Header>
                     <S.Body>
@@ -114,9 +119,9 @@ const RentDel: React.FC = () => {
                             {isLoading ? (
                                 <C.Loading />
                             ) : (
-                                <S.DeleteCont>
-                                    {sortedDeletionLab.length > 0 ? (
-                                        sortedDeletionLab.map((request) => (
+                                <S.ApprovalCont>
+                                    {sortedApprovalLab.length > 0 ? (
+                                        sortedApprovalLab.map((request) => (
                                             <S.RentalUserWrap key={request.userId}>
                                                 <S.Tooltip className="user_detail">
                                                     <p className="user_detail">
@@ -146,31 +151,30 @@ const RentDel: React.FC = () => {
                                                 <p className="user_detail">{request.rentalDate}</p>
                                                 <p className="user_detail">{request.rentalStartTime}</p>
                                                 <div className="user_detail">
-                                                    <button className="approval_btn" onClick={() => handleDeleteClick(request.userId)}>대여 삭제</button>
+                                                    <button className="approval_btn" onClick={() => handleApprovalClick(request.userId)}>대여 승인</button>
                                                 </div>
                                             </S.RentalUserWrap>
                                         ))
                                     ) : (
                                         <S.NotRentTextWrap>
-                                            <p style={{ fontSize: 17 }}>아직 대여 취소 신청을 안했습니다.</p>
+                                            <p style={{ fontSize: 17 }}>아직 신청한 랩실이 없습니다.</p>
                                         </S.NotRentTextWrap>
                                     )}
-                                </S.DeleteCont>
+                                </S.ApprovalCont>
                             )}
                         </S.BodyWrap>
                     </S.Body>
                 </S.Parent>
             </S.TopCont>
-            {/* Modal for deletion confirmation */}
             <C.TeacherModal
                 isOpen={isModalOpen}
                 onClose={() => setIsModalOpen(false)}
                 userId={selectedUserId}
-                actionType="del"
-                actionFunction={delLab}
+                actionType="apr"
+                actionFunction={aprLab}
             />
         </>
     );
 };
 
-export default RentDel;
+export default RentApproval;

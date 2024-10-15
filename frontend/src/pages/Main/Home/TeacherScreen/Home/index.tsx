@@ -3,8 +3,8 @@ import * as S from "./style";
 
 import React, { useState, useEffect } from 'react';
 import { customAxios } from "@src/api/axios";
-import { useAuthContext } from "@src/context/AuthContext";
 import { useNavigate } from "react-router-dom";
+import useAuth from "@src/hooks/useAuth";
 
 interface Lab {
     userId: number;
@@ -23,7 +23,7 @@ const TeacherScreen: React.FC = () => {
     const [rentalRequests, setRentalRequests] = useState<Lab[]>([]);
     const [isLoading, setIsLoading] = useState(false);
     const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc');
-    const { name } = useAuthContext();
+    const { name } = useAuth();
     const navigate = useNavigate();
 
     useEffect(() => {

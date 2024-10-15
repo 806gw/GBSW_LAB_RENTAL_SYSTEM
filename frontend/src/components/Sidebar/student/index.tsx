@@ -5,7 +5,6 @@ import useAuth from "@hooks/useAuth";
 import { useState } from "react";
 import { IoMenu } from "react-icons/io5";
 import SchoolFullLogo from "@media/SchoolFullLogo.png";
-import { useAuthContext } from "@src/context/AuthContext";
 import { FaUserAlt, FaWpforms, FaFileAlt } from "react-icons/fa";
 import { LuLogOut } from "react-icons/lu";
 
@@ -15,8 +14,7 @@ const StudentSide = () => {
     const closeModal = () => setIsModalOpen(false);
     const openModal = () => setIsModalOpen(true)
 
-    const { name } = useAuthContext();
-    const { handleLogout } = useAuth();
+    const { name, handleLogout } = useAuth();
 
     const [isOpen, setIsOpen] = useState(false);
 

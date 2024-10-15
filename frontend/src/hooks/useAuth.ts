@@ -1,7 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { customAxios } from "@src/api/axios";
-import { useAuthContext } from "../context/AuthContext";
 
 interface LoginData {
   userid: string;
@@ -9,14 +8,26 @@ interface LoginData {
 }
 
 const useAuth = () => {
-  const { setName } = useAuthContext();
+  const [name, setName] = useState<string | null>(
+    localStorage.getItem("userName") || null
+  );
+
   const [formData, setFormData] = useState<LoginData>({
     userid: "",
     password: "",
   });
+
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (name) {
+      localStorage.setItem("userName", name);
+    } else {
+      localStorage.removeItem("userName");
+    }
+  }, [name]);
 
   const handleFormChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -40,6 +51,7 @@ const useAuth = () => {
       const { accessToken, authorities, name: userName } = response.data;
 
       localStorage.setItem("accessToken", accessToken);
+      localStorage.setItem("userName", userName);
       setName(userName);
 
       let userAuthorities = Array.isArray(authorities)
@@ -63,11 +75,12 @@ const useAuth = () => {
 
   const handleLogout = () => {
     localStorage.removeItem("accessToken");
-    setName(null);
+    localStorage.removeItem("userName");
     navigate("/");
   };
 
   return {
+    name,
     formData,
     handleFormChange,
     handleSignIn,

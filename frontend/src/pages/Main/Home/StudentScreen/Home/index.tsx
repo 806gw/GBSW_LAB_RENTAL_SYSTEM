@@ -5,8 +5,8 @@ import { customAxios } from "@src/api/axios";
 import GBSW from '@media/GBSW.webp';
 import trash from '@assets/trash.svg';
 import { FaArrowRight } from "react-icons/fa";
-import { useAuthContext } from "@src/context/AuthContext";
 import { useNavigate } from 'react-router-dom';
+import useAuth from '@src/hooks/useAuth';
 
 interface Lab {
     userId: number;
@@ -24,7 +24,7 @@ const StudentScreen: React.FC = () => {
     const [rentalRequests, setRentalRequests] = useState<Lab[]>([]);
     const [userId, setUserId] = useState<number | null>(null);
     const [isLoading, setIsLoading] = useState(false);
-    const { name } = useAuthContext();
+    const { name } = useAuth()
     const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc');
     const navigate = useNavigate();
 

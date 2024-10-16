@@ -1,5 +1,7 @@
 <div align="center">
-  
+  <a href="http://school.gyo6.net/gbsw"><img src="https://raw.github.com/GBSWHS/CI-Signature/main/symbol/symbol-new-only.png" alt="경북소프트웨어마이스터고" width="100" /></a> &nbsp; &nbsp; 
+  <a href="http://school.gyo6.net/gbsw"><img src="https://raw.github.com/GBSWHS/CI-Signature/main/symbol/symbol-only.png" alt="경북소프트웨어고" width="100" /></a>
+
   ## 경북소프트웨어마이스터고 / 경북소프트웨어고 랩실 대여 시스템 
 </div>
 

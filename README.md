@@ -8,11 +8,13 @@
 # 페이지구성 
 ## 데스크탑
 ![렌딩페이지](https://github.com/user-attachments/assets/b63cfdda-187b-485e-99d5-e78c49ea86e1)
-![학생메인페이지](https://github.com/user-attachments/assets/f33f86ed-ba7b-4cd0-a6ff-26fc616ebad7)
+![학생메인페이지](https://github.com/user-attachments/assets/53a1e974-5f18-4d13-b454-41ecd307c74a)
 ![실습실대여페이지](https://github.com/user-attachments/assets/b49a63dc-98d7-4a1f-97ee-aa7d4c54b7b1)
 ![선생님승인페이지](https://github.com/user-attachments/assets/0cec609c-dc7d-464a-8618-21f5461cbc34)
 ![실습실취소페이지](https://github.com/user-attachments/assets/4c82204d-838b-4b71-9731-aa2d0979e74c)
+![선생님승인페이지](https://github.com/user-attachments/assets/611a1b32-fe9c-4ead-ab67-5f52f7c5a53f)
 ![선생님삭제페이지 및 로그아웃](https://github.com/user-attachments/assets/0bed0ce2-f90e-4840-9e09-78049cfcc99b)
+
 
 
 # 교내 랩실 대여 시스템

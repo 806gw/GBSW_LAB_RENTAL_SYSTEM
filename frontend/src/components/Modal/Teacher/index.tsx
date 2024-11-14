@@ -42,8 +42,8 @@ const TeacherModal: React.FC<ModalProps> = ({ isOpen, onClose, userId, actionTyp
                     <h1>{actionType === 'del' ? "이 실습실 신청을 삭제하시겠습니까?" : "이 실습실 신청을 승인하시겠습니까?"}</h1>
                 </S.WarningTextWrap>
                 <p>{actionType === 'del'
-                    ? "실습실 신청을 삭제하면, 이 신청은 완전히 사라집니다."
-                    : "실습실 신청을 승인하면, 학생들에게 표시됩니다."}
+                    ? "실습실 신청을 삭제하면 이 신청은 완전히 사라집니다."
+                    : "실습실 신청을 승인하면 삭제 요청이 없으면"} <br /> {"삭제할 수 없습니다."}
                 </p>
 
                 <S.BtnWrap>

@@ -3,6 +3,8 @@ import * as S from "./style";
 
 import React, { useState, useEffect } from 'react';
 import { customAxios } from "@src/api/axios";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 interface Lab {
     userId: number;
@@ -19,7 +21,7 @@ const RentDeletion: React.FC = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [selectedUserId, setSelectedUserId] = useState<number | null>(null); // To hold the userId for deletion
+    const [selectedUserId, setSelectedUserId] = useState<number | null>(null);
 
     useEffect(() => {
         const fetchDataAndAdminCheck = async () => {
@@ -44,6 +46,7 @@ const RentDeletion: React.FC = () => {
             setDeletionLab(response.data);
         } catch (error) {
             console.error(error);
+            toast.error("데이터를 불러오는 중 오류가 발생했습니다.");
         } finally {
             setIsLoading(false);
         }
@@ -61,12 +64,12 @@ const RentDeletion: React.FC = () => {
                 }
             );
             if (response) {
-                alert('랩실 신청을 삭제했습니다.');
+                toast.success("랩실 신청을 성공적으로 삭제했습니다.");
                 setDeletionLab((prev) => prev.filter(request => request.userId !== userid));
             }
         } catch (error) {
             console.error(error);
-            alert('삭제 실패.');
+            toast.error("랩실 신청 삭제에 실패했습니다.");
         }
     };
 
@@ -168,6 +171,7 @@ const RentDeletion: React.FC = () => {
                 actionType="del"
                 actionFunction={delLab}
             />
+            <ToastContainer />
         </>
     );
 };

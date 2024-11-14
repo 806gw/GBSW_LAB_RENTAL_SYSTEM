@@ -50,7 +50,7 @@ export const ModalWrapper = styled.div<{ $isOpen: boolean }>`
 
 export const WarningTextWrap = styled.div`
   width: 100%;
-  max-width: 80%;
+  max-width: 77%;
   display: flex;
   align-items: center;
   justify-content: space-between;

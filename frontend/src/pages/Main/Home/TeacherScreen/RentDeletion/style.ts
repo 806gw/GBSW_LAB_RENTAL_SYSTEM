@@ -143,13 +143,18 @@ export const RentalUserWrap = styled.div`
   }
 
   .approval_btn {
-    background: #e32727;
+    background-color: #e32727;
     border: none;
     border-radius: 4px;
     color: #fff;
     height: 2rem;
     width: 5rem;
+    transition: background-color 0.15s ease-in;
     cursor: pointer;
+  }
+
+  .approval_btn:hover {
+    background-color: #c62222;
   }
 `;
 

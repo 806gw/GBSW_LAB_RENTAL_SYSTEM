@@ -2,6 +2,8 @@ import * as C from "@src/allFiles";
 import * as S from "./style";
 import React, { useState, useEffect } from 'react';
 import { customAxios } from "@src/api/axios";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 interface Lab {
     userId: number;
@@ -66,12 +68,12 @@ const RentApproval: React.FC = () => {
             );
 
             if (response) {
-                alert('랩실 승인이 성공하였습니다.');
-                window.location.reload();
+                toast.success('랩실 승인이 성공하였습니다.');
+                fetchApprovalLab();
             }
         } catch (error) {
             console.error(error);
-            alert('랩실 승인을 하는 도중, 오류가 났습니다.');
+            toast.error('랩실 승인을 하는 도중, 오류가 났습니다.');
         }
     };
 
@@ -173,6 +175,7 @@ const RentApproval: React.FC = () => {
                 actionType="apr"
                 actionFunction={aprLab}
             />
+            <ToastContainer position="top-right" autoClose={3000} hideProgressBar={false} closeOnClick pauseOnHover />
         </>
     );
 };

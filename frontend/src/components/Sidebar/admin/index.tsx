@@ -41,7 +41,7 @@ const TeacherSide = () => {
                     <img src={SchoolFullLogo} alt="school_logo" className="school_logo" />
                     <S.NameWrap>
                         <FaUserAlt className="user_logo" />
-                        <p><span>{name}</span>, 환영합니다</p>
+                        <p><span>{name}</span>님, 환영합니다</p>
                     </S.NameWrap>
                 </S.SidebarWrap>
                 <S.ListCont>

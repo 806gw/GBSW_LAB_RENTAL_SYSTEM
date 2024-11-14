@@ -82,7 +82,7 @@ const StudentScreen: React.FC = () => {
                         <S.RentCont>
                             <img src={GBSW} alt='경소고 로고' className='gbsw' />
                             <S.RentSubCont>
-                                <S.LinkRent to={'/labenroll'}>실습실 대여하기</S.LinkRent>
+                                <S.LinkRent to={'/student/rental'}>실습실 대여하기</S.LinkRent>
                                 <FaArrowRight className='arrow' />
                             </S.RentSubCont>
                         </S.RentCont>

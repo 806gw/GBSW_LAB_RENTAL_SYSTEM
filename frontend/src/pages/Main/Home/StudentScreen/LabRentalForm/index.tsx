@@ -44,7 +44,7 @@ const LabRentalForm = () => {
             );
 
             alert('랩실 대여 신청이 성공하였습니다!');
-            navigate("/labrent");
+            navigate("/student");
         } catch (error: any) {
             if (error.response) {
                 console.error(error.response.data);

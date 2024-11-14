@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import * as S from './style';  // Assuming you already have the styling here
+import * as S from './style';
 import { IoIosWarning } from "react-icons/io";
 
 interface ModalProps {
     isOpen: boolean;
     onClose: () => void;
     userId: number | null;
-    actionType: 'del' | 'apr';  // This determines the action type
-    actionFunction: (userId: number) => Promise<void>;  // Del or Apr function
+    actionType: 'del' | 'apr';
+    actionFunction: (userId: number) => Promise<void>;
 }
 
 const TeacherModal: React.FC<ModalProps> = ({ isOpen, onClose, userId, actionType, actionFunction }) => {
@@ -26,7 +26,7 @@ const TeacherModal: React.FC<ModalProps> = ({ isOpen, onClose, userId, actionTyp
         if (userId === null) return;
         try {
             await actionFunction(userId);
-            onClose();  // Close modal after action
+            onClose();
         } catch (error) {
             console.error('Action failed', error);
         }
@@ -47,7 +47,7 @@ const TeacherModal: React.FC<ModalProps> = ({ isOpen, onClose, userId, actionTyp
                 </p>
 
                 <S.BtnWrap>
-                    <button onClick={handleAction} className='confirm_btn'>{actionType === 'del' ? '취소' : '승인'}</button>
+                    <button onClick={handleAction} className='confirm_btn'>{actionType === 'del' ? '삭제' : '승인'}</button>
                     <button onClick={onClose} className='cancel_btn'>닫기</button>
                 </S.BtnWrap>
             </S.ModalWrapper>

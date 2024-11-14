@@ -18,7 +18,7 @@ const RentApproval: React.FC = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc');
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [selectedUserId, setSelectedUserId] = useState<number | null>(null); // To hold the userId for approval
+    const [selectedUserId, setSelectedUserId] = useState<number | null>(null);
 
     useEffect(() => {
         const fetchDataAndAdminCheck = async () => {
@@ -71,7 +71,7 @@ const RentApproval: React.FC = () => {
             }
         } catch (error) {
             console.error(error);
-            alert('승인 실패.');
+            alert('랩실 승인을 하는 도중, 오류가 났습니다.');
         }
     };
 

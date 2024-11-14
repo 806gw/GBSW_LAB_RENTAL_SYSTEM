@@ -70,7 +70,7 @@ const TeacherScreen: React.FC = () => {
             <S.TopCont>
                 <S.Parent>
                     <S.Header>
-                        <p>안녕하세요, <span style={{ color: "rgb(19, 99, 223)" }}>{name}</span></p>
+                        <p>안녕하세요, <span style={{ color: "rgb(19, 99, 223)" }}>{name}</span>님</p>
                         <div>
                             <select id="sortOrder" value={sortOrder} onChange={handleSortChange}>
                                 <option value="desc">날짜 오름차</option>

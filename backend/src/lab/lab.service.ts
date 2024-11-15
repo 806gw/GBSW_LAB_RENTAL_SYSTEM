@@ -1,4 +1,8 @@
-import { ConflictException, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  ConflictException,
+  Injectable,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { LabInformationEntity } from 'src/entities/lab-info.entity';
 import { LabEntity, ApprovalStatus } from 'src/entities/lab.entity';
@@ -25,6 +29,19 @@ export class LabService {
     rentalUsers: string,
     userId: number,
   ) {
+    const existingUserRequest = await this.labRepository.findOne({
+      where: {
+        userId,
+        approvalStatus: ApprovalStatus.APPROVALWAITING,
+      },
+    });
+
+    if (existingUserRequest) {
+      throw new ConflictException(
+        '하나의 실험실 대여 요청만 보낼 수 있습니다.',
+      );
+    }
+
     const existingLab = await this.labRepository.findOne({
       where: { hopeLab, rentalStartTime, rentalDate },
     });
@@ -46,11 +63,6 @@ export class LabService {
 
     const savedRequest = await this.labRepository.save(newRental);
 
-    // const adminPhoneNumber = '+8201047632364';
-    // const message = `새로운 실습실 대여 요청이 있습니다.`;
-
-    // await this.twilioservice.sendSms(adminPhoneNumber, message);
-
     return savedRequest;
   }
 
@@ -59,6 +71,16 @@ export class LabService {
 
     if (!req) {
       throw new Error('해당 사용자의 대여 요청을 찾을 수 없습니다.');
+    }
+
+    if (req.approvalStatus == ApprovalStatus.APPROVALWAITING) {
+      throw new BadRequestException(
+        '요청 대기 상태에서는 취소 요청을 보낼 수 없습니다',
+      );
+    }
+
+    if (req.approvalStatus === ApprovalStatus.DELETIONWAITING) {
+      throw new BadRequestException('이미 삭제 대기 상태입니다.');
     }
 
     req.approvalStatus = ApprovalStatus.DELETIONWAITING;

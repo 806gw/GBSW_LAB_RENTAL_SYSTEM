@@ -12,8 +12,9 @@ const App: React.FC = () => {
         <Route path="/student" element={<R.StudentScreen />} />
         <Route path="/student/rental" element={<R.LabRentalForm />} />
         <Route path="/admin" element={<R.TeacherScreen />} />
-        <Route path="/admin/approval" element={<R.RentApproval />} />
-        <Route path="/admin/deletion" element={<R.RentDeletion />} />
+        {/* <Route path="/admin/approval" element={<R.RentApproval />} />
+        <Route path="/admin/deletion" element={<R.RentDeletion />} /> */}
+        <Route path="/admin/management" element={<R.RentManagement />} />
       </Routes>
     </Router>
     // </AuthProvider>

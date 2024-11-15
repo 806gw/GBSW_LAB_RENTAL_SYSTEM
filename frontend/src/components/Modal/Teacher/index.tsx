@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react';
 import * as S from './style';
+
+import React, { useState, useEffect } from 'react';
 import { IoIosWarning } from "react-icons/io";
 
 interface ModalProps {

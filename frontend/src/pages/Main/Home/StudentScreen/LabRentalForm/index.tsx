@@ -45,27 +45,24 @@ const LabRentalForm = () => {
                 }
             );
 
-            toast.success('랩실 대여 신청이 성공하였습니다! 10초 뒤에 메인 페이지로 이동합니다.', {
-                autoClose: 10000,
+            toast.success('랩실 대여 신청이 성공하였습니다! 5초 뒤에 메인 페이지로 이동합니다.', {
+                autoClose: 5000,
                 onClose: () => navigate("/student"),
             });
         } catch (error: any) {
             if (error.response) {
                 const errorMessage = error.response.data.message;
 
-                if (errorMessage.includes('하나의 실험실 대여 요청만 보낼 수 있습니다.')) {
-                    toast.error('하나의 실험실 대여 요청만 보낼 수 있습니다.');
-                } else if (errorMessage.includes('이미 해당 시간에 예약된 실험실이 있습니다.')) {
-                    toast.error('이미 해당 시간에 예약된 실험실이 있습니다.');
+                if (errorMessage.includes('하나의 실습실 대여 요청만 보낼 수 있습니다.')) {
+                    toast.error('하나의 실습실 대여 요청만 보낼 수 있습니다.');
+                } else if (errorMessage.includes('이미 해당 시간에 예약된 실습실이 있습니다.')) {
+                    toast.error('이미 해당 시간에 예약된 실습실이 있습니다.');
                 } else if (errorMessage.includes('요청 대기 상태에서는 취소 요청을 보낼 수 없습니다')) {
                     toast.error('요청 대기 상태에서는 취소 요청을 보낼 수 없습니다.');
                 } else if (error.response.status === 409) {
                     toast.error('이미 대여 요청이 존재하거나 예약이 중복되었습니다.');
-                    setTimeout(() => {
-                        window.location.href = "/student";
-                    }, 3000);
                 } else {
-                    toast.error('랩실 대여 신청 중 오류가 발생하였습니다.');
+                    toast.error('실습실 대여 신청 중 오류가 발생하였습니다.');
                 }
             } else {
                 toast.error('알 수 없는 오류가 발생하였습니다.');

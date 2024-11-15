@@ -73,7 +73,7 @@ const RentApproval: React.FC = () => {
             }
         } catch (error) {
             console.error(error);
-            toast.error('랩실 승인을 하는 도중, 오류가 났습니다.');
+            toast.error('랩실 승인을 하는 도중, 알 수 없는 오류가 났습니다.');
         }
     };
 

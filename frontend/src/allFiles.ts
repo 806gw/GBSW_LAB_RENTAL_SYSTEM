@@ -12,6 +12,7 @@ import StudentScreen from "./pages/Main/Home/StudentScreen/Home";
 import TeacherScreen from "./pages/Main/Home/TeacherScreen/Home";
 import RentApproval from "./pages/Main/Home/TeacherScreen/RentApproval";
 import RentDeletion from "./pages/Main/Home/TeacherScreen/RentDeletion";
+import RentManagement from "./pages/Main/Home/TeacherScreen/RentManagement";
 
 export {
   LoginContainer,
@@ -28,4 +29,5 @@ export {
   TeacherScreen,
   RentApproval,
   RentDeletion,
+  RentManagement,
 };

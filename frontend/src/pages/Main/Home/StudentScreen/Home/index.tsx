@@ -1,12 +1,15 @@
-import React, { useState, useEffect } from 'react';
 import * as C from "@src/allFiles";
 import * as S from "./style";
+
+import React, { useState, useEffect } from 'react';
 import { customAxios } from "@src/api/axios";
 import GBSW from '@media/GBSW.webp';
 import trash from '@assets/trash.svg';
 import { FaArrowRight } from "react-icons/fa";
 import { useNavigate } from 'react-router-dom';
 import useAuth from '@src/hooks/useAuth';
+import 'react-toastify/dist/ReactToastify.css';
+import { toast, ToastContainer } from 'react-toastify';
 
 interface Lab {
     userId: number;
@@ -24,7 +27,7 @@ const StudentScreen: React.FC = () => {
     const [rentalRequests, setRentalRequests] = useState<Lab[]>([]);
     const [userId, setUserId] = useState<number | null>(null);
     const [isLoading, setIsLoading] = useState(false);
-    const { name } = useAuth()
+    const { name } = useAuth();
     const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc');
     const navigate = useNavigate();
 
@@ -33,9 +36,7 @@ const StudentScreen: React.FC = () => {
 
         window.history.pushState(null, '', window.location.href);
 
-        const handlePopState = () => {
-            navigate(0);
-        };
+        const handlePopState = () => navigate(0);
 
         window.addEventListener('popstate', handlePopState);
 
@@ -51,6 +52,7 @@ const StudentScreen: React.FC = () => {
             setRentalRequests(response.data);
         } catch (error) {
             console.error('실습실 조회 실패', error);
+            toast.error('실습실 목록을 불러오는 중 문제가 발생했습니다.');
         } finally {
             setIsLoading(false);
         }
@@ -71,6 +73,33 @@ const StudentScreen: React.FC = () => {
 
     const handleSortChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
         setSortOrder(event.target.value as 'asc' | 'desc');
+    };
+
+    const handleModalSuccess = () => {
+        toast.success('실습실 신청이 성공적으로 취소되었습니다.');
+        fetchAvailableLabs();
+    };
+
+    const handleDelete = async (id: number) => {
+        try {
+            const accessToken = localStorage.getItem('accessToken');
+            const response = await customAxios.patch(`/lab/cancel/${id}`, {}, {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            });
+
+            if (!response.data.auth) {
+                toast.error('본인이 신청한 실습실이 아닙니다.')
+                throw new Error('자신이 신청한 실습실이 아닙니다.');
+            }
+
+            handleModalSuccess();
+        } catch (error: any) {
+            console.error('실습실 취소 실패', error.response?.data || error.message);
+        } finally {
+            closeModal();
+        }
     };
 
     return (
@@ -110,8 +139,8 @@ const StudentScreen: React.FC = () => {
                         <p>안녕하세요, <span style={{ color: "rgb(19, 99, 223)" }}>{name}</span>님</p>
                         <div>
                             <select id="sortOrder" value={sortOrder} onChange={handleSortChange}>
-                                <option value="desc">날짜 오름차</option>
-                                <option value="asc">날짜 내림차</option>
+                                <option value="asc">날짜 오름차순</option>
+                                <option value="desc">날짜 내림차순</option>
                             </select>
                             <button onClick={fetchAvailableLabs}>조회</button>
                         </div>
@@ -188,9 +217,11 @@ const StudentScreen: React.FC = () => {
                     isOpen={isOpen}
                     onClose={closeModal}
                     userId={userId}
-                    fetchAvailableLabs={fetchAvailableLabs}
+                    onSuccess={handleModalSuccess}
+                    actionFunction={handleDelete}
                 />
             </S.TopCont>
+            <ToastContainer position="top-right" autoClose={3000} hideProgressBar={false} closeOnClick pauseOnHover />
         </>
     );
 };

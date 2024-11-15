@@ -45,7 +45,7 @@ const TeacherSide = () => {
                     </S.NameWrap>
                 </S.SidebarWrap>
                 <S.ListCont>
-                    <S.LinkWrap to={"/admin/approval"}>
+                    {/* <S.LinkWrap to={"/admin/approval"}>
                         <div>
                             <FaFileAlt className="link_logo" />
                             <span>대여 요청 보기</span>
@@ -55,6 +55,12 @@ const TeacherSide = () => {
                         <div>
                             <RiDeleteBin5Fill className="link_logo" />
                             <span>삭제 요청 보기</span>
+                        </div>
+                    </S.LinkWrap> */}
+                    <S.LinkWrap to={"/admin/management"}>
+                        <div>
+                            <FaFileAlt className="link_logo" />
+                            <span>대여 현황</span>
                         </div>
                     </S.LinkWrap>
                     <S.LinkWrap to={"/admin"}>

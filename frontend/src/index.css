@@ -15,6 +15,9 @@
     user-select: none;
 }
 
-input {
+input,
+textarea,
+select,
+option {
     font-family: 'Pretendard';
 }

@@ -1,6 +1,6 @@
 <div align="center">
   <a href="http://school.gyo6.net/gbsw"><img src="https://raw.github.com/GBSWHS/CI-Signature/main/symbol/symbol-new-only.png" alt="경북소프트웨어마이스터고" width="100" /></a> &nbsp; &nbsp; 
-  <a href="http://school.gyo6.net/gbsw"><img src="https://raw.github.com/GBSWHS/CI-Signature/main/symbol/symbol-only.png" alt="경북소프트웨어고" width="100" /></a>
+  <a href="http://school.gyo6.net/gbsw"><img src="https://raw.github.com/GBSWHS/CI-Signature/main/symbol/symbol-only.png" alt="경북소프트웨어고" width="90" /></a>
 
   ## 경북소프트웨어마이스터고 / 경북소프트웨어고 랩실 대여 시스템 
 </div>
@@ -8,14 +8,11 @@
 # 페이지구성 
 ## 데스크탑
 ![렌딩페이지](https://github.com/user-attachments/assets/b63cfdda-187b-485e-99d5-e78c49ea86e1)
-![학생메인페이지](https://github.com/user-attachments/assets/53a1e974-5f18-4d13-b454-41ecd307c74a)
-![실습실대여페이지](https://github.com/user-attachments/assets/b49a63dc-98d7-4a1f-97ee-aa7d4c54b7b1)
-![선생님승인페이지](https://github.com/user-attachments/assets/0cec609c-dc7d-464a-8618-21f5461cbc34)
-![실습실취소페이지](https://github.com/user-attachments/assets/4c82204d-838b-4b71-9731-aa2d0979e74c)
-![선생님승인페이지](https://github.com/user-attachments/assets/611a1b32-fe9c-4ead-ab67-5f52f7c5a53f)
-![선생님삭제페이지 및 로그아웃](https://github.com/user-attachments/assets/0bed0ce2-f90e-4840-9e09-78049cfcc99b)
-
-
+![학생메인페이지](https://github.com/user-attachments/assets/d13d6cc8-2782-42ac-8d3c-d2ca7ebb7552)
+![랩실삭제요청](https://github.com/user-attachments/assets/80d11d2d-3d69-463a-b489-ed62102b2718)
+![랩실신청페이지](https://github.com/user-attachments/assets/33af040b-4819-4126-b1a8-e581d9af1b16)
+![랩실대여승인페이지](https://github.com/user-attachments/assets/62ffd136-9450-4902-aa6d-eb22d7457e81)
+![랩실대여삭제페이지](https://github.com/user-attachments/assets/9451e9ea-df1f-4fde-b236-ef7f5b375aa2)
 
 # 교내 랩실 대여 시스템
 > [!note]

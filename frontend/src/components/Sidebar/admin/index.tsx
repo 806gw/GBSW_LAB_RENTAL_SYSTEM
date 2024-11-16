@@ -60,7 +60,7 @@ const TeacherSide = () => {
                     <S.LinkWrap to={"/admin/management"}>
                         <div>
                             <FaFileAlt className="link_logo" />
-                            <span>대여 현황</span>
+                            <span>대여 관리</span>
                         </div>
                     </S.LinkWrap>
                     <S.LinkWrap to={"/admin"}>

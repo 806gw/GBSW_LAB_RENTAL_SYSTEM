@@ -84,7 +84,6 @@ export const LoginBtn = styled.button`
   height: 50px;
   margin-left: auto;
   margin-right: auto;
-  margin-top: 25px;
   width: 100%;
   transition: background-color 0.12s ease-in;
 

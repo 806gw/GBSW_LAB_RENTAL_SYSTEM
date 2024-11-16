@@ -4,8 +4,6 @@ import * as C from "@src/allFiles"
 import SymbolNew from "@media/symbol-new-only.png"
 import SymbolOld from "@media/symbol-only.png"
 
-
-
 const LoginForm = () => {
     return (
         <>

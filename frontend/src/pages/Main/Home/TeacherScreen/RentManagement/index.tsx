@@ -3,7 +3,7 @@ import * as S from "./style";
 
 import React, { useState, useEffect } from "react";
 import { customAxios } from "@src/api/axios";
-import { ToastContainer, toast } from "react-toastify";
+import { Flip, toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 interface Lab {
@@ -80,19 +80,27 @@ const RentManagement: React.FC = () => {
             if (actionType === "apr") {
                 const response = await customAxios.patch(`/admin/${userId}`, {}, { headers: { Authorization: `Bearer ${accessToken}` } });
                 if (response) {
-                    toast.success("랩실 승인이 성공하였습니다.");
+                    toast.success("랩실 승인이 성공하였습니다.", {
+                        pauseOnHover: false,
+                        transition: Flip
+                    });
                     fetchApprovalLab();
                 }
             } else {
                 const response = await customAxios.delete(`/admin/${userId}`, { headers: { Authorization: `Bearer ${accessToken}` } });
                 if (response) {
-                    toast.success("랩실 신청을 성공적으로 삭제했습니다.");
+                    toast.success("랩실 신청을 성공적으로 삭제했습니다.", {
+                        pauseOnHover: false,
+                        transition: Flip
+                    });
                     setDeletionLab((prev) => prev.filter((request) => request.userId !== userId));
                 }
             }
         } catch (error) {
             console.error(error);
-            toast.error(actionType === "apr" ? "랩실 승인을 하는 도중 오류가 발생했습니다." : "랩실 신청 삭제에 실패했습니다.");
+            toast.error(actionType === "apr" ? "랩실 승인을 하는 도중 오류가 발생했습니다." : "랩실 신청 삭제에 실패했습니다.",
+                { pauseOnHover: false, transition: Flip }
+            );
         } finally {
             setIsModalOpen(false);
         }
@@ -203,7 +211,6 @@ const RentManagement: React.FC = () => {
                         </S.BodyWrap>
                     </S.Body>
                 </S.Parent>
-                <ToastContainer />
                 {isModalOpen && (
                     <C.TeacherModal
                         isOpen={isModalOpen}
@@ -213,6 +220,7 @@ const RentManagement: React.FC = () => {
                         actionFunction={handleAction}
                     />
                 )}
+                <ToastContainer limit={1} />
             </S.TopCont>
         </>
     );

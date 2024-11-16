@@ -1,15 +1,16 @@
 import * as S from "./style";
 
-import { useState } from "react";
+import React from "react";
 import useAuth from "@hooks/useAuth";
 import { AiFillExclamationCircle, AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
+import { ToastContainer } from "react-toastify";
 
 const LoginContainer = () => {
-    const { formData, handleFormChange, handleSignIn, isLoading, error } = useAuth();
-    const [showPassword, setShowPassword] = useState(false);
+    const { formData, handleFormChange, handleSignIn, isLoading } = useAuth();
+    const [showPassword, setShowPassword] = React.useState(false);
 
     const togglePasswordVisibility = () => {
-        setShowPassword(prev => !prev);
+        setShowPassword((prev) => !prev);
     };
 
     return (
@@ -40,14 +41,14 @@ const LoginContainer = () => {
                     <S.PasswordToggleButton type="button" onClick={togglePasswordVisibility}>
                         {showPassword ? <AiFillEyeInvisible className="show_logo" /> : <AiFillEye className="show_logo" />}
                     </S.PasswordToggleButton>
-                    {error && <S.ErrorText>{error}</S.ErrorText>} {/* 로그인 실패 시 에러 메시지 */}
-                    {isLoading && <S.LoadingText>로딩중입니다...</S.LoadingText>} {/* 로딩 중 텍스트 */}
                 </S.InputCont>
-
-                <S.LoginBtn type="submit">로그인</S.LoginBtn>
+                <S.LoginBtn type="submit" disabled={isLoading}>
+                    로그인
+                </S.LoginBtn>
             </S.LoginInputWrap>
+            <ToastContainer />
         </S.LoginInputCont>
     );
-}
+};
 
 export default LoginContainer;

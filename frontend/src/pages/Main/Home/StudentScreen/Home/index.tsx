@@ -9,7 +9,7 @@ import { FaArrowRight } from "react-icons/fa";
 import { useNavigate } from 'react-router-dom';
 import useAuth from '@src/hooks/useAuth';
 import 'react-toastify/dist/ReactToastify.css';
-import { toast, ToastContainer } from 'react-toastify';
+import { Flip, toast, ToastContainer } from 'react-toastify';
 
 interface Lab {
     userId: number;
@@ -52,7 +52,10 @@ const StudentScreen: React.FC = () => {
             setRentalRequests(response.data);
         } catch (error) {
             console.error('실습실 조회 실패', error);
-            toast.error('실습실 목록을 불러오는 중 문제가 발생했습니다.');
+            toast.error('실습실 목록을 불러오는 중 문제가 발생했습니다.', {
+                pauseOnHover: false,
+                transition: Flip
+            });
         } finally {
             setIsLoading(false);
         }
@@ -76,7 +79,10 @@ const StudentScreen: React.FC = () => {
     };
 
     const handleModalSuccess = () => {
-        toast.success('실습실 신청이 성공적으로 취소되었습니다.');
+        toast.success('실습실 취소 요청이 성공적으로 되었습니다.', {
+            pauseOnHover: false,
+            transition: Flip
+        });
         fetchAvailableLabs();
     };
 
@@ -90,7 +96,10 @@ const StudentScreen: React.FC = () => {
             });
 
             if (!response.data.auth) {
-                toast.error('본인이 신청한 실습실이 아닙니다.')
+                toast.error('본인이 신청한 실습실이 아닙니다.', {
+                    pauseOnHover: false,
+                    transition: Flip
+                })
                 throw new Error('자신이 신청한 실습실이 아닙니다.');
             }
 

@@ -9,7 +9,7 @@
 ![랜딩페이지](https://github.com/user-attachments/assets/61db6ecd-969a-4611-84d8-eef5ddf90282)
 ![학생메인페이지](https://github.com/user-attachments/assets/3caf7e9d-6c4a-4d2a-82c2-3c714480b83f)
 ![학생실습실신청페이지](https://github.com/user-attachments/assets/e9000a3d-8a33-42da-aa00-d17e3477f8a5)
-![선생님실습실승인페이지](https://github.com/user-attachments/assets/2e35ee06-4a47-4580-b997-1eea92c21e14)
+![선생님실습실승인페이지](https://github.com/user-attachments/assets/52520571-a35d-4b43-8b54-a04b6ffee60a)
 ![404](https://github.com/user-attachments/assets/86de4f69-0b3e-4cf3-b8ab-2ab0112ae921)
 
 # 교내 실습실 대여 시스템

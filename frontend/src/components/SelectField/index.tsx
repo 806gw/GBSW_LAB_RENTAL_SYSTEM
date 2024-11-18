@@ -2,15 +2,16 @@ import * as S from "./style";
 
 interface SelectFieldProps {
     label: string;
+    children: string;
     name: string;
     value: string;
     options: string[];
     onChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
     required?: boolean;
 }
-
 const SelectField: React.FC<SelectFieldProps> = ({
     label,
+    children,
     name,
     value,
     options,
@@ -27,7 +28,7 @@ const SelectField: React.FC<SelectFieldProps> = ({
                 onChange={onChange}
                 required={required}
             >
-                <option value="" disabled></option>
+                <option value="" disabled >{children}</option>
                 {options.map((option, index) => (
                     <option key={index} value={option}>
                         {option}

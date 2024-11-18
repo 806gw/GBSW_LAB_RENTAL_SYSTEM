@@ -98,22 +98,26 @@ export const RentCont = styled.div`
   height: 200px;
 
   .gbsw {
-    width: 70px;
-    height: 70px;
+    width: 75px;
   }
   .arrow {
-    color: #0b0b0b;
+    color: #7d7d7d;
     margin-left: 10px;
     width: 20px;
   }
 `;
 
 export const LinkRent = styled(Link)`
-  color: #0078ff;
-  font-size: 18px;
+  color: #00aa87;
+  font-size: 20px;
   font-family: "Pretendard";
   font-weight: 900;
   text-decoration: none;
+  transition: color 0.12s ease-in;
+
+  &:hover {
+    color: #029678;
+  }
 `;
 
 export const RentSubCont = styled.div`
@@ -283,6 +287,26 @@ export const Tooltip = styled.div`
   }
 `;
 
+export const CharacterWrap = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+
+  .meister_character {
+    width: 6rem;
+  }
+
+  .sw_character,
+  .game_character {
+    width: 5rem;
+  }
+`;
+
 export const NotRentTextWrap = styled.div`
-  margin-top: 20px;
+  margin: 50px;
+
+  & > p {
+    margin: 20px;
+  }
 `;

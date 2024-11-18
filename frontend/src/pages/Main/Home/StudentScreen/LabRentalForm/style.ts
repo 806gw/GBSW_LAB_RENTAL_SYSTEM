@@ -26,7 +26,7 @@ export const Parent = styled.div`
   margin: 0 auto;
   width: 100%;
   height: auto;
-  padding: 20px 0;
+  padding: 30px 0;
 `;
 
 export const FormCont = styled.div`
@@ -41,9 +41,9 @@ export const FormCont = styled.div`
   .rental_btn {
     width: 170px;
     height: 45px;
-    border: none;
+    border: 1px solid #00aa87;
     border-radius: 10px;
-    background-color: #0078ff;
+    background-color: #00aa87;
     font-weight: 500;
     font-size: 1rem;
     font-family: "Pretendard";
@@ -53,7 +53,7 @@ export const FormCont = styled.div`
 
     &:hover {
       cursor: pointer;
-      background-color: #0066cc;
+      background-color: #029678;
     }
   }
 `;
@@ -72,8 +72,8 @@ export const TextareaCont = styled.div`
   }
 
   & > textarea {
-    width: 350px;
-    height: 100px;
+    width: 360px;
+    height: 120px;
     margin-top: 15px;
     padding: 5px 10px;
     border: 2px solid #bebec7;

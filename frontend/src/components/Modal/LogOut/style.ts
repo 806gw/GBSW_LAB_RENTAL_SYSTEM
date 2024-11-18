@@ -52,18 +52,13 @@ export const ModalWrapper = styled.div<{ $isOpen: boolean }>`
 
 export const ModalLogoCont = styled.div`
   height: 3.2rem;
-  margin-left: auto;
-  margin-right: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 6.5rem;
 
   .gbsw_new_logo {
-    float: left;
-    width: 2.5rem;
-  }
-
-  .gbsw_old_logo {
-    float: right;
-    width: 2.2rem;
+    width: 2.8rem;
   }
 `;
 
@@ -83,11 +78,21 @@ export const BtnWrap = styled.div`
   }
 
   .del_btn {
-    background-color: #0078ff;
+    background-color: #00aa87;
     color: #fff;
+    transition: background-color 0.1s ease-in;
+
+    &:hover {
+      background-color: #029678;
+    }
   }
 
   .cancel_btn {
     margin-left: 2rem;
+    transition: background-color 0.1s ease-in;
+
+    &:hover {
+      background-color: #d7d7d7;
+    }
   }
 `;

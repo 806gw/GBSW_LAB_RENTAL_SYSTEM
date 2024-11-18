@@ -134,6 +134,22 @@ export const RentalUserWrap = styled.div`
   height: 3.5rem;
   margin: 1rem auto 0;
 
+  .hopeLab_detail {
+    width: 148px;
+    margin-left: 5px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    padding: 2px;
+    border: none;
+    border-radius: 4px;
+    font-size: 14px;
+    font-family: "Pretendard";
+    color: #3b2920;
+    text-align: center;
+    outline: none;
+    cursor: pointer;
+  }
+
   .user_detail {
     font-size: 13px;
     flex: 1;
@@ -208,4 +224,24 @@ export const Tooltip = styled.div`
 
 export const NotRentTextWrap = styled.div`
   margin-top: 20px;
+
+  & > p {
+    margin: 20px;
+  }
+`;
+
+export const CharacterWrap = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+
+  .meister_character {
+    width: 6rem;
+  }
+
+  .sw_character,
+  .game_character {
+    width: 5rem;
+  }
 `;

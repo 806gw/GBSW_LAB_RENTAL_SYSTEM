@@ -78,11 +78,21 @@ export const BtnWrap = styled.div`
   }
 
   .confirm_btn {
-    background-color: #0078ff;
+    background-color: #00aa87;
     color: #fff;
+    transition: background-color 0.1s ease-in;
+
+    &:hover {
+      background-color: #029678;
+    }
   }
 
   .cancel_btn {
     margin-left: 2rem;
+    transition: background-color 0.1s ease-in;
+
+    &:hover {
+      background-color: #d7d7d7;
+    }
   }
 `;

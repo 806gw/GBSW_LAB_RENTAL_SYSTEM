@@ -3,7 +3,6 @@ import * as S from './style';
 import React, { useState, useEffect } from 'react';
 import useAuth from '@src/hooks/useAuth';
 import SymbolNew from "@media/symbol-new-only.png";
-import SymbolOld from "@media/symbol-only.png";
 
 interface CustomModalProps {
     isOpen: boolean;
@@ -36,10 +35,9 @@ const LogOutModal: React.FC<CustomModalProps> = ({ isOpen, onClose }) => {
             <S.ModalWrapper $isOpen={isOpen} onClick={(e) => e.stopPropagation()}>
                 <S.ModalLogoCont>
                     <img src={SymbolNew} alt="symbol_new" className='gbsw_new_logo' />
-                    <img src={SymbolOld} alt="symbol_old" className='gbsw_old_logo' />
                 </S.ModalLogoCont>
                 <div style={{ fontSize: '1rem' }}>
-                    <span style={{ color: '#00AA87' }}>경소마고</span> · <span style={{ color: '#004D89' }}>경소고</span>
+                    <span style={{ color: '#00AA87' }}>경북소프트웨어 마이스터고등학교</span>
                 </div>
                 <div style={{ fontSize: '1rem' }}>
                     <span style={{ color: '#7d7d7d' }}>랩실 대여 시스템</span>

@@ -68,23 +68,19 @@ export const LoginTitle = styled.div`
   margin-left: auto;
   margin-right: auto;
   text-align: center;
-  width: 20rem;
+  width: 22rem;
 `;
 
 export const LoginLogoCont = styled.div`
   height: 3.2rem;
-  margin-left: auto;
-  margin-right: auto;
+  margin: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 9rem;
 
   .gbsw_new_logo {
-    float: left;
-    width: 3.2rem;
-  }
-
-  .gbsw_old_logo {
-    float: right;
-    width: 3rem;
+    width: 4rem;
   }
 `;
 
@@ -93,10 +89,11 @@ export const LoginTextCont = styled.div`
   display: block;
   margin-left: auto;
   margin-right: auto;
-  width: auto;
+  width: 100%;
   height: 3rem;
   text-align: center;
   font-weight: bold;
+  margin: 15px;
 
   .tag_bottom {
     color: #7d7d7d;

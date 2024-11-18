@@ -43,11 +43,15 @@ export class LabService {
     }
 
     const existingLab = await this.labRepository.findOne({
-      where: { hopeLab, rentalStartTime, rentalDate },
+      where: {
+        hopeLab,
+        rentalDate,
+        approvalStatus: ApprovalStatus.APPROVED,
+      },
     });
 
     if (existingLab) {
-      throw new ConflictException('이미 해당 시간에 예약된 실험실이 있습니다.');
+      throw new ConflictException('이미] 예약된 실험실입니다.');
     }
 
     const newRental = this.labRepository.create({

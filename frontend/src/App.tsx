@@ -1,24 +1,14 @@
 import * as R from "@src/allFiles";
 
-import React from "react";
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { ToastContainer } from "react-toastify";
 
-const App: React.FC = () => {
+const App = () => {
   return (
-    // <AuthProvider>
-    <Router>
-      <Routes>
-        <Route path="/" element={<R.Landing />} />
-        <Route path="/student" element={<R.StudentScreen />} />
-        <Route path="/student/rental" element={<R.LabRentalForm />} />
-        <Route path="/admin" element={<R.TeacherScreen />} />
-        {/* <Route path="/admin/approval" element={<R.RentApproval />} />
-        <Route path="/admin/deletion" element={<R.RentDeletion />} /> */}
-        <Route path="/admin/management" element={<R.RentManagement />} />
-      </Routes>
-    </Router>
-    // </AuthProvider>
+    <>
+      <R.CommonRouter />
+      <ToastContainer limit={1} />
+    </>
   );
-}
+};
 
 export default App

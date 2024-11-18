@@ -3,7 +3,6 @@ import * as S from "./style";
 import React from "react";
 import useAuth from "@hooks/useAuth";
 import { AiFillExclamationCircle, AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
-import { ToastContainer } from "react-toastify";
 
 const LoginContainer = () => {
     const { formData, handleFormChange, handleSignIn, isLoading } = useAuth();
@@ -46,7 +45,6 @@ const LoginContainer = () => {
                     로그인
                 </S.LoginBtn>
             </S.LoginInputWrap>
-            <ToastContainer />
         </S.LoginInputCont>
     );
 };

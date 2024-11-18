@@ -52,6 +52,7 @@ const useAuth = () => {
       position: "top-right",
       toastId,
       pauseOnHover: false,
+      closeButton: false,
       transition: Flip,
     });
 
@@ -64,17 +65,20 @@ const useAuth = () => {
       const { accessToken, authorities, name: userName } = response.data;
 
       toast.update(toastId, {
-        render: `${userName}님, 곧 메인 페이지로 이동합니다.`,
+        render: `${userName}님, 환영합니다.`,
         type: "success",
         isLoading: false,
-        autoClose: 3000,
+        autoClose: 1000,
         closeOnClick: true,
         pauseOnHover: false,
+        closeButton: false,
         transition: Flip,
       });
 
       localStorage.setItem("accessToken", accessToken);
       localStorage.setItem("userName", userName);
+      localStorage.setItem("userRole", authorities[0]);
+
       setName(userName);
 
       let userAuthorities = Array.isArray(authorities)
@@ -89,7 +93,7 @@ const useAuth = () => {
         } else {
           console.error("알 수 없는 권한:", userAuthorities);
         }
-      }, 1500);
+      }, 1200);
     } catch (err: any) {
       const status = err.response?.status;
       const errorMessage =
@@ -103,9 +107,10 @@ const useAuth = () => {
         render: errorMessage,
         type: "error",
         isLoading: false,
-        autoClose: 2000,
+        autoClose: 1000,
         closeOnClick: true,
         pauseOnHover: false,
+        closeButton: false,
         transition: Flip,
       });
     } finally {
@@ -114,8 +119,18 @@ const useAuth = () => {
   };
 
   const handleLogout = () => {
+    toast.info("로그아웃되었습니다.", {
+      position: "top-right",
+      autoClose: 1000,
+      closeOnClick: true,
+      pauseOnHover: false,
+      closeButton: false,
+      transition: Flip,
+    });
+
     localStorage.removeItem("accessToken");
     localStorage.removeItem("userName");
+    localStorage.removeItem("userRole");
     navigate("/");
   };
 

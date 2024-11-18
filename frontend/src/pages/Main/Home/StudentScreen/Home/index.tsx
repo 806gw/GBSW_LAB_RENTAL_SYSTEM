@@ -3,13 +3,16 @@ import * as S from "./style";
 
 import React, { useState, useEffect } from 'react';
 import { customAxios } from "@src/api/axios";
-import GBSW from '@media/GBSW.webp';
+import GBSW from '@media/symbol-new-only.png';
 import trash from '@assets/trash.svg';
 import { FaArrowRight } from "react-icons/fa";
 import { useNavigate } from 'react-router-dom';
 import useAuth from '@src/hooks/useAuth';
 import 'react-toastify/dist/ReactToastify.css';
-import { Flip, toast, ToastContainer } from 'react-toastify';
+import { Flip, toast } from 'react-toastify';
+import MeisterCharacter from "@media/meister-character.png"
+import SWCharacter from "@media/meister-sw-character.png"
+import GameCharacter from "@media/meister-game-character.png"
 
 interface Lab {
     userId: number;
@@ -53,8 +56,11 @@ const StudentScreen: React.FC = () => {
         } catch (error) {
             console.error('실습실 조회 실패', error);
             toast.error('실습실 목록을 불러오는 중 문제가 발생했습니다.', {
+                autoClose: 1000,
+                closeOnClick: true,
                 pauseOnHover: false,
-                transition: Flip
+                closeButton: false,
+                transition: Flip,
             });
         } finally {
             setIsLoading(false);
@@ -80,8 +86,11 @@ const StudentScreen: React.FC = () => {
 
     const handleModalSuccess = () => {
         toast.success('실습실 취소 요청이 성공적으로 되었습니다.', {
+            autoClose: 1000,
+            closeOnClick: true,
             pauseOnHover: false,
-            transition: Flip
+            closeButton: false,
+            transition: Flip,
         });
         fetchAvailableLabs();
     };
@@ -97,8 +106,11 @@ const StudentScreen: React.FC = () => {
 
             if (!response.data.auth) {
                 toast.error('본인이 신청한 실습실이 아닙니다.', {
+                    autoClose: 1000,
+                    closeOnClick: true,
                     pauseOnHover: false,
-                    transition: Flip
+                    closeButton: false,
+                    transition: Flip,
                 })
                 throw new Error('자신이 신청한 실습실이 아닙니다.');
             }
@@ -145,7 +157,7 @@ const StudentScreen: React.FC = () => {
                         </S.NoticeCont>
                     </S.Header>
                     <S.StudentHeader>
-                        <p>안녕하세요, <span style={{ color: "rgb(19, 99, 223)" }}>{name}</span>님</p>
+                        <p>안녕하세요, <span style={{ color: '#00AA87', fontWeight: "600" }}>{name}</span>님</p>
                         <div>
                             <select id="sortOrder" value={sortOrder} onChange={handleSortChange}>
                                 <option value="asc">날짜 오름차순</option>
@@ -213,15 +225,20 @@ const StudentScreen: React.FC = () => {
                                         </S.RentalUserWrap>
                                     ))}
                                 </S.RentalUserCont>
-                            ) : (
-                                <S.NotRentTextWrap>
-                                    <p style={{ fontSize: 17 }}>아직 신청 완료된 랩실이 없습니다.</p>
-                                </S.NotRentTextWrap>
-                            )}
+                            ) :
+                                (
+                                    <S.NotRentTextWrap>
+                                        <S.CharacterWrap>
+                                            <img src={MeisterCharacter} alt="" className="meister_character" />
+                                            <img src={SWCharacter} alt="" className="sw_character" />
+                                            <img src={GameCharacter} alt="" className="game_character" />
+                                        </S.CharacterWrap>
+                                        <p style={{ fontSize: 17 }}>아직 신청 완료된 실습실이 없습니다.</p>
+                                    </S.NotRentTextWrap>
+                                )}
                         </S.BodyWrap>
                     </S.Body>
                 </S.Parent>
-
                 <C.LabModal
                     isOpen={isOpen}
                     onClose={closeModal}
@@ -230,7 +247,6 @@ const StudentScreen: React.FC = () => {
                     actionFunction={handleDelete}
                 />
             </S.TopCont>
-            <ToastContainer position="top-right" autoClose={3000} hideProgressBar={false} closeOnClick pauseOnHover />
         </>
     );
 };

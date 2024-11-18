@@ -1,4 +1,3 @@
-import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 export const TopCont = styled.div`
@@ -73,96 +72,6 @@ export const Header = styled.div`
     height: 2.5rem;
     width: 5rem;
     cursor: pointer;
-  }
-`;
-
-export const RentCont = styled.div`
-  border: 1px solid #d9d9d9;
-  border-radius: 30px;
-  background-color: #fff;
-  box-shadow: 2px 4px 12px #00000014;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  text-align: center;
-  width: 200px;
-  height: 200px;
-
-  .gbsw {
-    width: 70px;
-    height: 70px;
-  }
-  .arrow {
-    margin-left: 10px;
-    width: 20px;
-  }
-`;
-
-export const LinkRent = styled(Link)`
-  color: #6a96ec;
-  font-size: 18px;
-  font-family: "Pretendard";
-  font-weight: 900;
-  transition: color 0.2s ease-in-out;
-  text-decoration: none;
-  &:hover {
-    color: #3067d4;
-  }
-`;
-
-export const RentSubCont = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-top: 20px;
-  cursor: pointer;
-`;
-
-export const NoticeCont = styled.div`
-  border: 1px solid #d9d9d9;
-  border-radius: 30px;
-  background-color: #fff;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  text-align: center;
-  width: 850px;
-  height: 200px;
-  padding-left: 40px;
-  justify-content: start;
-`;
-
-export const NoticeSubCont = styled.div`
-  width: 100%;
-  height: 100%;
-  text-align: start;
-  margin-top: 15px;
-  display: flex;
-  align-items: center;
-
-  .important_text {
-    color: #fd1717;
-    font-size: 18px;
-    font-weight: 700;
-  }
-`;
-
-export const NoticeRuleCont = styled.div`
-  font-size: 15px;
-  color: #000;
-  padding: 10px 0;
-
-  .notice_text {
-    font-weight: 700;
-    margin: 0 0 10px 0;
-  }
-
-  .explanation {
-    margin: 0;
-    color: #878787;
   }
 `;
 
@@ -278,6 +187,26 @@ export const Tooltip = styled.div`
   }
 `;
 
+export const CharacterWrap = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+
+  .meister_character {
+    width: 6rem;
+  }
+
+  .sw_character,
+  .game_character {
+    width: 5rem;
+  }
+`;
+
 export const NotRentTextWrap = styled.div`
-  margin-top: 20px;
+  margin: 50px;
+
+  & > p {
+    margin: 20px;
+  }
 `;

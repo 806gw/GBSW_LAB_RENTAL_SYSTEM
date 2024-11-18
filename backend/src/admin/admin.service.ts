@@ -2,11 +2,12 @@ import {
   Injectable,
   NotFoundException,
   InternalServerErrorException,
+  ConflictException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 import { LabInformationEntity } from 'src/entities/lab-info.entity';
 import { LabEntity, ApprovalStatus } from 'src/entities/lab.entity';
-import { Repository } from 'typeorm';
 
 @Injectable()
 export class AdminService {
@@ -18,46 +19,67 @@ export class AdminService {
   ) {}
 
   async cancelRentalLab(userId: number) {
-    const lab = await this.labRepository.findOne({
-      where: { userId },
-    });
+    const lab = await this.labRepository.findOne({ where: { userId } });
 
     if (!lab) {
       throw new NotFoundException(`Rental lab with userId ${userId} not found`);
-    } else {
-      console.log(lab);
     }
 
     const labInfo = await this.labInformationRepository.findOne({
       where: { labName: lab.hopeLab },
     });
 
-    // 실습실 정보가 있을 때만 삭제 시도
     if (labInfo) {
       await this.labInformationRepository.remove(labInfo);
     }
 
-    const deleteLab = await this.labRepository.delete({
-      userId,
+    const deleteLab = await this.labRepository.delete({ userId });
+
+    return { affected: deleteLab.affected, labInfo };
+  }
+
+  async checkConflict(checkRequest: {
+    labName: string;
+    rentalDate: string;
+    rentalStartTime: string;
+  }) {
+    const { labName, rentalDate, rentalStartTime } = checkRequest;
+
+    const conflictingLab = await this.labInformationRepository.findOne({
+      where: {
+        labName,
+        rentalDate: new Date(rentalDate),
+        rentalStartTime,
+      },
     });
 
-    return { affected: deleteLab?.affected, labInfo };
+    return { isConflict: !!conflictingLab };
   }
 
   async permitRentalLab(userId: number) {
-    const lab = await this.labRepository.findOne({
-      where: { userId },
-    });
+    const lab = await this.labRepository.findOne({ where: { userId } });
 
     if (!lab) {
       throw new NotFoundException(`Rental lab with userId ${userId} not found`);
-    } else {
-      console.log(lab);
     }
 
     if (!lab.hopeLab) {
       throw new InternalServerErrorException(
         `hopeLab is null for rental request with userId ${userId}`,
+      );
+    }
+
+    const conflictingLab = await this.labInformationRepository.findOne({
+      where: {
+        labName: lab.hopeLab,
+        rentalDate: lab.rentalDate,
+        rentalStartTime: lab.rentalStartTime,
+      },
+    });
+
+    if (conflictingLab) {
+      throw new ConflictException(
+        `The lab "${lab.hopeLab}" is already booked on ${lab.rentalDate}.`,
       );
     }
 
@@ -79,8 +101,7 @@ export class AdminService {
 
     const saveInfo = await this.labInformationRepository.save(labInfo);
 
-    // return { affected: permitResult?.affected, saveInfo };
-    return { affected: permitResult?.affected, saveInfo };
+    return { affected: permitResult.affected, saveInfo };
   }
 
   async getApprovalRequest(): Promise<LabEntity[]> {
@@ -97,5 +118,33 @@ export class AdminService {
         approvalStatus: ApprovalStatus.DELETIONWAITING,
       },
     });
+  }
+
+  async changeLab(changeLabDto: {
+    userId: number;
+    newLabName: string;
+  }): Promise<string> {
+    const { userId, newLabName } = changeLabDto;
+
+    const isConflict = await this.labInformationRepository.findOne({
+      where: {
+        labName: newLabName,
+      },
+    });
+
+    if (isConflict) {
+      throw new ConflictException(`${newLabName}is already.`);
+    }
+
+    const updateResult = await this.labRepository.update(
+      { userId },
+      { hopeLab: newLabName },
+    );
+
+    if (updateResult.affected === 0) {
+      throw new NotFoundException('User not found.');
+    }
+
+    return 'Lab has been successfully updated.';
   }
 }

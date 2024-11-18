@@ -72,7 +72,7 @@ export const LoginIssueText = styled.div`
 `;
 
 export const LoginBtn = styled.button`
-  background-color: #3669dd;
+  background-color: #00aa87;
   border: none;
   border-radius: 5px;
   color: #fff;
@@ -88,7 +88,7 @@ export const LoginBtn = styled.button`
   transition: background-color 0.12s ease-in;
 
   &:hover {
-    background-color: #2958c2;
+    background-color: #029678;
   }
 `;
 

@@ -5,6 +5,9 @@ import React, { useState, useEffect } from 'react';
 import { customAxios } from "@src/api/axios";
 import { useNavigate } from "react-router-dom";
 import useAuth from "@src/hooks/useAuth";
+import MeisterCharacter from "@media/meister-character.png"
+import SWCharacter from "@media/meister-sw-character.png"
+import GameCharacter from "@media/meister-game-character.png"
 
 interface Lab {
     userId: number;
@@ -70,7 +73,7 @@ const TeacherScreen: React.FC = () => {
             <S.TopCont>
                 <S.Parent>
                     <S.Header>
-                        <p>안녕하세요, <span style={{ color: "rgb(19, 99, 223)" }}>{name}</span>님</p>
+                        <p>안녕하세요, <span style={{ color: "#00aa87", fontWeight: "600" }}>{name}</span>님</p>
                         <div>
                             <select id="sortOrder" value={sortOrder} onChange={handleSortChange}>
                                 <option value="desc">날짜 오름차</option>
@@ -133,7 +136,12 @@ const TeacherScreen: React.FC = () => {
                                 </S.RentalUserCont>
                             ) : (
                                 <S.NotRentTextWrap>
-                                    <p style={{ fontSize: 17 }}>랩실 대여 승인 페이지에서 승인을 완료하면 표시됩니다.</p>
+                                    <S.CharacterWrap>
+                                        <img src={MeisterCharacter} alt="" className="meister_character" />
+                                        <img src={SWCharacter} alt="" className="sw_character" />
+                                        <img src={GameCharacter} alt="" className="game_character" />
+                                    </S.CharacterWrap>
+                                    <p style={{ fontSize: 17 }}>실습실 대여 관리 페이지에서 승인한 실습실이 아직 없습니다.</p>
                                 </S.NotRentTextWrap>
                             )}
 

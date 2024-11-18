@@ -13,6 +13,10 @@ import TeacherScreen from "./pages/Main/Home/TeacherScreen/Home";
 import RentApproval from "./pages/Main/Home/TeacherScreen/RentApproval";
 import RentDeletion from "./pages/Main/Home/TeacherScreen/RentDeletion";
 import RentManagement from "./pages/Main/Home/TeacherScreen/RentManagement";
+import NotFound from "./pages/Error";
+import CommonRouter from "./layout/Common";
+import PrivateRoute from "./layout/Private";
+import PublicRoute from "./layout/Public";
 
 export {
   LoginContainer,
@@ -30,4 +34,8 @@ export {
   RentApproval,
   RentDeletion,
   RentManagement,
+  NotFound,
+  CommonRouter,
+  PrivateRoute,
+  PublicRoute,
 };

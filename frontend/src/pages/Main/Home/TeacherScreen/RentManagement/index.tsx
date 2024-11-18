@@ -3,8 +3,11 @@ import * as S from "./style";
 
 import React, { useState, useEffect } from "react";
 import { customAxios } from "@src/api/axios";
-import { Flip, toast, ToastContainer } from "react-toastify";
+import { Flip, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import MeisterCharacter from "@media/meister-character.png"
+import SWCharacter from "@media/meister-sw-character.png"
+import GameCharacter from "@media/meister-game-character.png"
 
 interface Lab {
     userId: number;
@@ -25,6 +28,7 @@ const RentManagement: React.FC = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedUserId, setSelectedUserId] = useState<number | null>(null);
     const [actionType, setActionType] = useState<"apr" | "del">("apr");
+    const [hopeLab, setHopeLab] = useState('');
 
     useEffect(() => {
         const fetchData = async () => {
@@ -33,7 +37,13 @@ const RentManagement: React.FC = () => {
                 await Promise.all([fetchApprovalLab(), fetchDeletionLab()]);
             } catch (error) {
                 console.error(error);
-                toast.error("데이터를 불러오는 중 오류가 발생했습니다.");
+                toast.error("데이터를 불러오는 중 오류가 발생했습니다.", {
+                    autoClose: 1000,
+                    closeOnClick: false,
+                    pauseOnHover: false,
+                    closeButton: false,
+                    transition: Flip,
+                });
             } finally {
                 setIsLoading(false);
             }
@@ -78,33 +88,65 @@ const RentManagement: React.FC = () => {
         const accessToken = localStorage.getItem("accessToken");
         try {
             if (actionType === "apr") {
-                const response = await customAxios.patch(`/admin/${userId}`, {}, { headers: { Authorization: `Bearer ${accessToken}` } });
-                if (response) {
-                    toast.success("랩실 승인이 성공하였습니다.", {
-                        pauseOnHover: false,
-                        transition: Flip
-                    });
-                    fetchApprovalLab();
+                const changeLabResponse = await customAxios.put(
+                    `/admin/changeLab`,
+                    { userId, newLabName: hopeLab },
+                    { headers: { Authorization: `Bearer ${accessToken}` } }
+                );
+
+                if (changeLabResponse) {
+                    const approvalResponse = await customAxios.patch(
+                        `/admin/${userId}`,
+                        {},
+                        { headers: { Authorization: `Bearer ${accessToken}` } }
+                    );
+
+                    if (approvalResponse) {
+                        toast.success("실습실 승인이 성공하였습니다.", {
+                            autoClose: 1000,
+                            closeOnClick: false,
+                            pauseOnHover: false,
+                            transition: Flip,
+                        });
+                        setApprovalLab((prev) => prev.filter((lab) => lab.userId !== userId));
+                        // 상태 업데이트
+                        await fetchApprovalLab();
+                    }
                 }
             } else {
-                const response = await customAxios.delete(`/admin/${userId}`, { headers: { Authorization: `Bearer ${accessToken}` } });
+                const response = await customAxios.delete(`/admin/${userId}`, {
+                    headers: { Authorization: `Bearer ${accessToken}` },
+                });
                 if (response) {
-                    toast.success("랩실 신청을 성공적으로 삭제했습니다.", {
+                    toast.success("실습실 신청을 성공적으로 삭제했습니다.", {
+                        autoClose: 1000,
+                        closeOnClick: false,
                         pauseOnHover: false,
-                        transition: Flip
+                        transition: Flip,
                     });
-                    setDeletionLab((prev) => prev.filter((request) => request.userId !== userId));
+                    setDeletionLab((prev) => prev.filter((lab) => lab.userId !== userId));
+                    // 상태 업데이트
+                    await fetchDeletionLab();
                 }
             }
         } catch (error) {
             console.error(error);
-            toast.error(actionType === "apr" ? "랩실 승인을 하는 도중 오류가 발생했습니다." : "랩실 신청 삭제에 실패했습니다.",
-                { pauseOnHover: false, transition: Flip }
+            toast.error(
+                actionType === "apr"
+                    ? "실습실 승인을 하는 도중 오류가 발생했습니다."
+                    : "실습실 신청 삭제에 실패했습니다.",
+                {
+                    autoClose: 1000,
+                    closeOnClick: false,
+                    pauseOnHover: false,
+                    transition: Flip,
+                }
             );
         } finally {
             setIsModalOpen(false);
         }
     };
+
 
     const sortedLab = [...(filterType === "approval" ? approvalLab : filterType === "deletion" ? deletionLab : [...approvalLab, ...deletionLab])].sort(
         (a, b) => (sortOrder === "asc" ? new Date(a.rentalDate).getTime() - new Date(b.rentalDate).getTime() : new Date(b.rentalDate).getTime() - new Date(a.rentalDate).getTime())
@@ -124,6 +166,24 @@ const RentManagement: React.FC = () => {
         setIsModalOpen(true);
     };
 
+    const labOptions = [
+        '2층 컴퓨터 교육실',
+        '2층 메이커 실습실',
+        '2층 LAP1',
+        '2층 LAP2',
+        '3층 프로젝트 실습실 (2-1 앞)',
+        '3층 모바일 실습실 (2-2 앞)',
+        '3층 임베디드 실습실 (2-3 앞)',
+        '3층 응용프로그래밍 실습실1 (2-4 앞)',
+        '3층 LAP3',
+        '3층 LAP4',
+        '4층 응용프로그래밍 실습실2 (1-1 앞)',
+        '4층 게임개발 실습실 (1-2 앞)',
+        '4층 채움교실 (1-4 앞)',
+        '4층 LAP6',
+        '4층 LAP7',
+    ];
+
     return (
         <>
             <C.TeacherSide />
@@ -131,7 +191,7 @@ const RentManagement: React.FC = () => {
                 <S.Parent>
                     <S.Header>
                         <p>
-                            <span style={{ color: "rgb(19, 99, 223)" }}>랩실 대여 관리</span> 페이지입니다.
+                            <span style={{ color: "#00aa87", fontWeight: "600" }}>실습실 대여 관리</span> 페이지입니다.
                         </p>
                         <div>
                             <select id="filterType" value={filterType} onChange={handleFilterChange}>
@@ -164,12 +224,31 @@ const RentManagement: React.FC = () => {
                                     {sortedLab.length > 0 ? (
                                         sortedLab.map((request) => (
                                             <S.RentalUserWrap key={request.userId}>
-                                                <S.Tooltip className="user_detail">
-                                                    <p className="user_detail">
-                                                        {request.hopeLab.length > 11 ? request.hopeLab.slice(0, 11) + "..." : request.hopeLab}
-                                                    </p>
-                                                    {request.hopeLab.length > 11 && <span className="tooltiptext">{request.hopeLab}</span>}
-                                                </S.Tooltip>
+                                                {approvalLab.some((lab) => lab.userId === request.userId) ? (
+                                                    <select
+                                                        name="hopeLab"
+                                                        className="hopeLab_detail"
+                                                        value={hopeLab}
+                                                        onChange={(e) => setHopeLab(e.target.value)}
+                                                        required
+                                                    >
+                                                        <option value={request.hopeLab}>{request.hopeLab}</option>
+                                                        {labOptions
+                                                            .filter((lab) => lab !== request.hopeLab)
+                                                            .map((lab, index) => (
+                                                                <option key={index} value={lab}>
+                                                                    {lab}
+                                                                </option>
+                                                            ))}
+                                                    </select>
+                                                ) : (
+                                                    <S.Tooltip className="user_detail">
+                                                        <span>
+                                                            {request.hopeLab.length > 16 ? request.hopeLab.slice(0, 16) + "..." : request.hopeLab}
+                                                        </span>
+                                                        {request.hopeLab.length > 16 && <span className="tooltiptext">{request.hopeLab}</span>}
+                                                    </S.Tooltip>
+                                                )}
                                                 <p className="user_detail">{request.rentalUser}</p>
                                                 <S.Tooltip className="user_detail">
                                                     <span>
@@ -201,6 +280,11 @@ const RentManagement: React.FC = () => {
                                         ))
                                     ) : (
                                         <S.NotRentTextWrap>
+                                            <S.CharacterWrap>
+                                                <img src={MeisterCharacter} alt="" className="meister_character" />
+                                                <img src={SWCharacter} alt="" className="sw_character" />
+                                                <img src={GameCharacter} alt="" className="game_character" />
+                                            </S.CharacterWrap>
                                             <p style={{ fontSize: 17 }}>
                                                 {filterType === "approval" ? "승인 요청이 없습니다." : filterType === "deletion" ? "취소 요청이 없습니다." : "승인 및 취소 요청이 없습니다."}
                                             </p>
@@ -220,7 +304,6 @@ const RentManagement: React.FC = () => {
                         actionFunction={handleAction}
                     />
                 )}
-                <ToastContainer limit={1} />
             </S.TopCont>
         </>
     );

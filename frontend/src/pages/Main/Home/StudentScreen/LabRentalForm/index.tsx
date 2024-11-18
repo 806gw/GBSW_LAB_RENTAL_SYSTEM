@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { customAxios } from "@src/api/axios";
 import InputField from "@src/components/InputField";
 import SelectField from "@src/components/SelectField";
-import { Flip, toast, ToastContainer } from 'react-toastify';
+import { Flip, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 
@@ -34,7 +34,9 @@ const LabRentalForm = () => {
 
         if (!rentalDate || rentalDate < getTodayDate()) {
             toast.error('유효한 대여 희망일을 입력해주세요.', {
+                autoClose: 1000,
                 pauseOnHover: false,
+                closeButton: false,
                 transition: Flip,
             });
             return;
@@ -64,59 +66,48 @@ const LabRentalForm = () => {
                 }
             );
 
-            toast.success('랩실 대여 신청이 성공하였습니다! 2초 뒤에 메인 페이지로 이동합니다.', {
-                autoClose: 2000,
+            toast.success('실습실 대여 신청이 성공하였습니다! 곧 메인 페이지로 이동합니다.', {
+                autoClose: 1000,
+                closeOnClick: true,
                 pauseOnHover: false,
+                closeButton: false,
                 transition: Flip,
                 onClose: () => navigate("/student"),
             });
         } catch (error: any) {
             if (error.response) {
-                const errorMessage = error.response.data.message;
+                const status = error.response.status;
 
-                if (errorMessage.includes('하나의 실습실 대여 요청만 보낼 수 있습니다.', {
-                    pauseOnHover: false,
-                    transition: Flip
-                })) {
-                    toast.error('하나의 실습실 대여 요청만 보낼 수 있습니다.', {
-                        pauseOnHover: false,
-                        transition: Flip
-                    });
-                } else if (errorMessage.includes('이미 해당 시간에 예약된 실습실이 있습니다.', {
-                    pauseOnHover: false,
-                    transition: Flip
-                })) {
-                    toast.error('이미 해당 시간에 예약된 실습실이 있습니다.', {
-                        pauseOnHover: false,
-                        transition: Flip
-                    });
-                } else if (errorMessage.includes('요청 대기 상태에서는 취소 요청을 보낼 수 없습니다', {
-                    pauseOnHover: false,
-                    transition: Flip
-                })) {
+                if (status === 409) {
+                    {
+                        toast.error('이미 빌려진 실습실 이거나, 하나의 실습실을 빌렸습니다.', {
+                            autoClose: 1000,
+                            closeOnClick: true,
+                            pauseOnHover: false,
+                            closeButton: false,
+                            transition: Flip,
+                        });
+                    }
+                } else if (status === 400) {
                     toast.error('요청 대기 상태에서는 취소 요청을 보낼 수 없습니다.', {
+                        autoClose: 1000,
+                        closeOnClick: true,
                         pauseOnHover: false,
-                        transition: Flip
-                    });
-                } else if (error.response.status === 409) {
-                    toast.error('이미 대여 요청이 존재하거나 예약이 중복되었습니다.', {
-                        pauseOnHover: false,
-                        transition: Flip
-                    });
-                } else {
-                    toast.error('실습실 대여 신청 중 오류가 발생하였습니다.', {
-                        pauseOnHover: false,
-                        transition: Flip
+                        closeButton: false,
+                        transition: Flip,
                     });
                 }
             } else {
                 toast.error('알 수 없는 오류가 발생하였습니다.', {
+                    autoClose: 1000,
+                    closeOnClick: true,
                     pauseOnHover: false,
-                    transition: Flip
+                    closeButton: false,
+                    transition: Flip,
                 });
             }
         }
-    };
+    }
 
     const timeOptions = [
         '점심시간(12:30~13:40)',
@@ -182,6 +173,7 @@ const LabRentalForm = () => {
                                 <span>4. 사용 목적</span>
                                 <textarea
                                     className='rental-textarea'
+                                    placeholder="프로젝트 진행 시 무슨 대회인지 어떤 프로젝트인지 반드시 기재"
                                     name='rentalPurpose'
                                     value={rentalPurpose}
                                     onChange={(e) => setRentalPurpose(e.target.value)}
@@ -191,6 +183,7 @@ const LabRentalForm = () => {
                             <SelectField
                                 label="5. 사용 대여 시간"
                                 name="rentalStartTime"
+                                children="사용 대여 시간을 선택해주세요."
                                 value={rentalStartTime}
                                 options={timeOptions}
                                 onChange={(e) => setRentalStartTime(e.target.value)}
@@ -198,6 +191,7 @@ const LabRentalForm = () => {
                             />
                             <SelectField
                                 label="6. 대여 희망 실습실"
+                                children="대여 희망 실습실을 선택해주세요."
                                 name="hopeLab"
                                 value={hopeLab}
                                 options={labOptions}
@@ -208,10 +202,9 @@ const LabRentalForm = () => {
                         </form>
                     </S.FormCont>
                 </S.Parent>
-                <ToastContainer limit={1} />
             </S.TopCont>
         </>
     );
 };
 
-export default LabRentalForm;
+export default LabRentalForm

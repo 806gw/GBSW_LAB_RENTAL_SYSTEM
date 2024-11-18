@@ -1,23 +1,21 @@
 <div align="center">
-  <a href="http://school.gyo6.net/gbsw"><img src="https://raw.github.com/GBSWHS/CI-Signature/main/symbol/symbol-new-only.png" alt="경북소프트웨어마이스터고" width="100" /></a> &nbsp; &nbsp; 
-  <a href="http://school.gyo6.net/gbsw"><img src="https://raw.github.com/GBSWHS/CI-Signature/main/symbol/symbol-only.png" alt="경북소프트웨어고" width="90" /></a>
+  <a href="http://school.gyo6.net/gbsw"><img src="https://raw.github.com/GBSWHS/CI-Signature/main/symbol/symbol-new-only.png" alt="경북소프트웨어마이스터고" width="100" /></a>
 
-  ## 경북소프트웨어마이스터고 / 경북소프트웨어고 랩실 대여 시스템 
+  ## 경북소프트웨어 마이스터고등학교 실습실 대여 시스템 
 </div>
 
 # 페이지구성 
 ## 데스크탑
-![렌딩페이지](https://github.com/user-attachments/assets/b63cfdda-187b-485e-99d5-e78c49ea86e1)
-![학생메인페이지](https://github.com/user-attachments/assets/d13d6cc8-2782-42ac-8d3c-d2ca7ebb7552)
-![랩실삭제요청](https://github.com/user-attachments/assets/80d11d2d-3d69-463a-b489-ed62102b2718)
-![랩실신청페이지](https://github.com/user-attachments/assets/33af040b-4819-4126-b1a8-e581d9af1b16)
-![랩실대여승인페이지](https://github.com/user-attachments/assets/62ffd136-9450-4902-aa6d-eb22d7457e81)
-![랩실대여삭제페이지](https://github.com/user-attachments/assets/9451e9ea-df1f-4fde-b236-ef7f5b375aa2)
+![랜딩페이지](https://github.com/user-attachments/assets/61db6ecd-969a-4611-84d8-eef5ddf90282)
+![학생메인페이지](https://github.com/user-attachments/assets/3caf7e9d-6c4a-4d2a-82c2-3c714480b83f)
+![학생실습실신청페이지](https://github.com/user-attachments/assets/e9000a3d-8a33-42da-aa00-d17e3477f8a5)
+![선생님실습실승인페이지](https://github.com/user-attachments/assets/2e35ee06-4a47-4580-b997-1eea92c21e14)
+![404](https://github.com/user-attachments/assets/86de4f69-0b3e-4cf3-b8ab-2ab0112ae921)
 
-# 교내 랩실 대여 시스템
+# 교내 실습실 대여 시스템
 > [!note]
-> 기존의 랩실 대여 시스템을 편하게 이용할 수 있도록 하는것을 목표로 두고 있습니다. </br>
-> ~~경북소프트웨어마이스터고 · 경북소프트웨어고 랩실 대여 시스템 [[바로가기]](http://plab.s3-website.ap-northeast-2.amazonaws.com/)~~
+> 기존의 실습실 대여 시스템을 편하게 이용할 수 있도록 하는것을 목표로 두고 있습니다. </br>
+> ~~경북소프트웨어마이스터고 · 경북소프트웨어고 실습실 대여 시스템 [[바로가기]](http://plab.s3-website.ap-northeast-2.amazonaws.com/)~~
 
 ## 프로젝트 개요
 

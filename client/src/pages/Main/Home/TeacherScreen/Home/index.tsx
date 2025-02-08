@@ -26,7 +26,7 @@ const TeacherScreen: React.FC = () => {
     const [rentalRequests, setRentalRequests] = useState<Lab[]>([]);
     const [isLoading, setIsLoading] = useState(false);
     const [sortOrder, setSortOrder] = useState<"asc" | "desc">("desc");
-    const { getUsername } = useAuth(); // 사용자 이름 가져오기
+    const { getUsername } = useAuth();
     const navigate = useNavigate();
 
     useEffect(() => {

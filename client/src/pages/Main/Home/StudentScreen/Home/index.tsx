@@ -53,8 +53,8 @@ const StudentScreen: React.FC = () => {
     const fetchAvailableLabs = async () => {
         setIsLoading(true);
         try {
-            const response = await customAxios.get<Lab[]>("/lab");
-            setRentalRequests(Array.isArray(response.data) ? response.data : []);
+            const response = await customAxios.get("/lab");
+            setRentalRequests(response.data.body);
         } catch (error) {
             toast.error('실습실 목록을 불러오는 중 문제가 발생했습니다.', {
                 autoClose: 1000,
@@ -101,7 +101,7 @@ const StudentScreen: React.FC = () => {
     const handleDelete = async (id: number) => {
         try {
             const accessToken = localStorage.getItem('accessToken');
-            const response = await customAxios.patch(`/lab/cancel/${id}`, {}, {
+            const response = await customAxios.patch(`/lab/${id}`, {}, {
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
                 },
@@ -180,7 +180,6 @@ const StudentScreen: React.FC = () => {
                                 <p className="list_detail">대여시간</p>
                                 <p className="list_detail" />
                             </S.RentalCont>
-
                             {isLoading ? (
                                 <C.Loading />
                             ) : sortedRequests.length > 0 ? (

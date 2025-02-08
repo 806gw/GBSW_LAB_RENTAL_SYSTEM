@@ -52,6 +52,30 @@ export class LabController {
   }
 
   @ApiOperation({
+    summary: "랩실 삭제",
+    description: "랩실 삭제를 요청합니다.",
+  })
+  @Roles(RolesEnum.user)
+  @ApiBody({ type: CreateLabDto })
+  @Post(":id")
+  public async deletionRequestLab(
+    @Param("id") id: number
+  ): Promise<{ success: boolean }> {
+    const targetlab = await this.labService.findOneLab(id);
+
+    const updatedLabData = {
+      ...targetlab,
+      deletionRental: true,
+    };
+
+    await this.labService.update(id, updatedLabData);
+
+    return {
+      success: true,
+    };
+  }
+
+  @ApiOperation({
     summary: "모든 대여 요청 조회",
   })
   @UseGuards(AuthGuard)

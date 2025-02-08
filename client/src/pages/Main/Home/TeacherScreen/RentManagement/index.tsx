@@ -1,7 +1,7 @@
 import * as C from "@src/allFiles";
 import * as S from "./style";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { customAxios } from "@src/api/axios";
 import { Flip, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -10,35 +10,49 @@ import SWCharacter from "@media/meister-sw-character.png";
 import GameCharacter from "@media/meister-game-character.png";
 
 interface Lab {
-    id: number;
-    rentalDate: string;
-    rentalStartTime: string;
-    rentalUser: string;
-    rentalUsers: string;
-    rentalPurpose: string;
-    labName: string;
-    approvalRental: boolean;
-    deletionRental: boolean;
+    id?: number;
+    rentalDate?: string;
+    rentalStartTime?: string;
+    rentalUser?: string;
+    rentalUsers?: string;
+    rentalPurpose?: string;
+    labName?: string;
+    approvalRental?: boolean;
+    deletionRental?: boolean;
+    status?: string;
 }
 
 const RentManagement: React.FC = () => {
-    const [approvalLab, setApprovalLab] = useState<Lab[]>([]);
-    const [deletionLab, setDeletionLab] = useState<Lab[]>([]);
+    const [labs, setLabs] = useState<(Lab)[]>([]);
     const [isLoading, setIsLoading] = useState(false);
     const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
     const [filterType, setFilterType] = useState<"all" | "approval" | "deletion">("all");
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedUserId, setSelectedUserId] = useState<number | null>(null);
     const [actionType, setActionType] = useState<"apr" | "del">("apr");
-    const [labName, setLabName] = useState<Record<number, string>>({});
-
-
 
     useEffect(() => {
         const fetchData = async () => {
             setIsLoading(true);
             try {
-                await Promise.all([fetchApprovalLab(), fetchDeletionLab()]);
+                const [approvalLabs, deletionLabs] = await Promise.all([fetchApprovalLab(), fetchDeletionLab()]);
+
+                const mergedLabs = [...approvalLabs, ...deletionLabs].filter(lab => lab.id !== undefined);
+                const uniqueLabsMap = new Map<number, Lab>();
+
+                mergedLabs.forEach((lab) => {
+                    if (lab.id === undefined) {
+                        console.error("랩실을 찾을 수 없습니다.", lab);
+                        return;
+                    }
+                    if (uniqueLabsMap.has(lab.id)) {
+                        uniqueLabsMap.set(lab.id, { ...uniqueLabsMap.get(lab.id), status: "all" });
+                    } else {
+                        uniqueLabsMap.set(lab.id, lab);
+                    }
+                });
+
+                setLabs(Array.from(uniqueLabsMap.values()));
             } catch (error) {
                 toast.error("데이터를 불러오는 중 오류가 발생했습니다.", {
                     autoClose: 1000,
@@ -57,35 +71,40 @@ const RentManagement: React.FC = () => {
     const fetchApprovalLab = async () => {
         try {
             const response = await customAxios.get<{ success: boolean; body: Lab[] }>("/lab/approved");
-            const approvalLabs = response.data.body.filter((lab) => lab);
-            setApprovalLab(approvalLabs);
-            console.log(approvalLabs)
+            const approvalLabs = response.data.body.filter((lab) => lab && lab.id !== undefined).map((lab) => ({
+                ...lab,
+                status: "approval",
+            }));
+            console.log("승인쪽 요청")
+            return approvalLabs;
         } catch (error) {
             console.log(error);
-            setApprovalLab([]);
+            return [];
         }
     };
 
     const fetchDeletionLab = async () => {
         try {
             const response = await customAxios.get<{ success: boolean; body: Lab[] }>("/lab/deletion");
-            const deletionLabs = response.data.body.filter((lab) => lab);
-            setDeletionLab(deletionLabs);
+            const deletionLabs = response.data.body.filter((lab) => lab && lab.id !== undefined).map((lab) => ({
+                ...lab,
+                status: "deletion",
+            }));
+            return deletionLabs;
         } catch (error) {
             console.log(error);
-            setDeletionLab([]);
+            return [];
         }
     };
 
-
-    const handleAction = async (userId: number) => {
+    const handleAction = async (id: number) => {
         try {
+            const labName = labs.find((it) => it.id === id)?.labName;
             const payload = {
-                actionType: actionType === "apr" ? "approve" : "delete", // 승인 또는 삭제
-                labName: actionType === "apr" ? labName[userId] : undefined, // 승인일 경우에만 labName 포함
+                approvalRental: true,
+                labName: actionType === "apr" ? labName : undefined,
             };
-
-            await customAxios.patch(`/lab/${userId}`, payload);
+            await customAxios.patch(`/lab/${id}`, payload);
 
             toast.success(
                 actionType === "apr"
@@ -99,14 +118,8 @@ const RentManagement: React.FC = () => {
                 }
             );
 
-            // 로컬 상태 업데이트
-            if (actionType === "apr") {
-                setApprovalLab((prev) => prev.filter((lab) => lab.id !== userId));
-            } else {
-                setDeletionLab((prev) => prev.filter((lab) => lab.id !== userId));
-            }
+            setLabs((prev) => prev.filter((lab) => lab.id !== id))
         } catch (error: any) {
-            // 오류 알림
             toast.error(
                 actionType === "apr"
                     ? "승인 처리 중 오류가 발생했습니다."
@@ -120,19 +133,26 @@ const RentManagement: React.FC = () => {
                 }
             );
         } finally {
-            setIsModalOpen(false); // 모달 닫기
+            setIsModalOpen(false);
         }
     };
 
-    const sortedLab = filterType === "approval"
-        ? approvalLab
-        : filterType === "deletion"
-            ? deletionLab
-            : [...approvalLab, ...deletionLab].sort((a, b) =>
-                sortOrder === "asc"
-                    ? new Date(a.rentalDate).getTime() - new Date(b.rentalDate).getTime()
-                    : new Date(b.rentalDate).getTime() - new Date(a.rentalDate).getTime()
-            );
+    const sortedLab = useMemo(() => {
+        const filteredLabs = labs.filter((lab) => {
+            if (filterType === "approval") return lab.status === "approval";
+            if (filterType === "deletion") return lab.status === "deletion";
+            return true;
+        });
+
+        return filteredLabs.sort((firstLab, secondLab) =>
+            sortOrder === "asc"
+                ? new Date(firstLab.rentalDate ? firstLab.rentalDate : 0).getTime() -
+                new Date(secondLab.rentalDate ? secondLab.rentalDate : 0).getTime()
+                : new Date(secondLab.rentalDate ? secondLab.rentalDate : 0).getTime() -
+                new Date(firstLab.rentalDate ? firstLab.rentalDate : 0).getTime()
+        );
+
+    }, [labs, filterType, sortOrder]);
 
     const handleFilterChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
         setFilterType(event.target.value as "all" | "approval" | "deletion");
@@ -143,10 +163,11 @@ const RentManagement: React.FC = () => {
     };
 
     const handleLabNameChange = (userId: number, newValue: string) => {
-        setLabName((prev) => ({
-            ...prev,
-            [userId]: newValue,
-        }));
+        setLabs(prevLabs =>
+            prevLabs.map(lab =>
+                lab.id === userId ? { ...lab, labName: newValue } : lab
+            )
+        );
     };
 
     const handleActionClick = (userId: number, type: "apr" | "del") => {
@@ -211,19 +232,19 @@ const RentManagement: React.FC = () => {
                             ) : (
                                 <S.ApprovalCont>
                                     {sortedLab.length > 0 ? (
-                                        sortedLab.map((request, index) => (
-                                            <S.RentalUserWrap key={`${request.id}-${index}`}>
-                                                {request.approvalRental ? (
+                                        sortedLab.map((lab, index) => (
+                                            <S.RentalUserWrap key={`${lab.id}-${index}`}>
+                                                {lab.status == "approval" || lab.status == "all" ? (
                                                     <select
                                                         name="labName"
-                                                        className="labName_detail"
-                                                        value={labName[request.id] || request.labName}
-                                                        onChange={(e) => handleLabNameChange(request.id, e.target.value)}
+                                                        className="hopeLab_detail"
+                                                        value={lab.labName}
+                                                        onChange={(e) => handleLabNameChange((lab.id ? lab.id : -1), e.target.value)}
                                                         required
                                                     >
-                                                        <option value={request.labName}>{request.labName}</option>
+                                                        <option value={lab.labName}>{lab.labName}</option>
                                                         {labOptions
-                                                            .filter((lab) => lab !== request.labName)
+                                                            .filter((labName) => labName !== lab.labName)
                                                             .map((lab, labIndex) => (
                                                                 <option key={`${lab}-${labIndex}`} value={lab}>
                                                                     {lab}
@@ -233,51 +254,51 @@ const RentManagement: React.FC = () => {
                                                 ) : (
                                                     <S.Tooltip className="user_detail">
                                                         <span>
-                                                            {request.labName.length > 16
-                                                                ? request.labName.slice(0, 16) + "..."
-                                                                : request.labName}
+                                                            {lab.labName !== undefined && lab.labName.length > 16
+                                                                ? lab.labName?.slice(0, 16) + "..."
+                                                                : lab.labName}
                                                         </span>
-                                                        {request.labName.length > 16 && (
-                                                            <span className="tooltiptext">{request.labName}</span>
+                                                        {lab.labName !== undefined && lab.labName.length > 16 && (
+                                                            <span className="tooltiptext">{lab.labName}</span>
                                                         )}
                                                     </S.Tooltip>
                                                 )}
-                                                <p className="user_detail">{request.rentalUser}</p>
+                                                <p className="user_detail">{lab.rentalUser}</p>
                                                 <S.Tooltip className="user_detail">
                                                     <span>
-                                                        {request.rentalUsers.length > 12
-                                                            ? request.rentalUsers.slice(0, 12) + "..."
-                                                            : request.rentalUsers}
+                                                        {lab.rentalUsers !== undefined && lab.rentalUsers.length > 12
+                                                            ? lab.rentalUsers.slice(0, 12) + "..."
+                                                            : lab.rentalUsers}
                                                     </span>
-                                                    {request.rentalUsers.length > 12 && (
-                                                        <span className="tooltiptext">{request.rentalUsers}</span>
+                                                    {lab.rentalUsers !== undefined && lab.rentalUsers.length > 12 && (
+                                                        <span className="tooltiptext">{lab.rentalUsers}</span>
                                                     )}
                                                 </S.Tooltip>
                                                 <S.Tooltip className="user_detail">
                                                     <span>
-                                                        {request.rentalPurpose.length > 16
-                                                            ? request.rentalPurpose.slice(0, 16) + "..."
-                                                            : request.rentalPurpose}
+                                                        {lab.rentalPurpose !== undefined && lab.rentalPurpose.length > 16
+                                                            ? lab.rentalPurpose.slice(0, 16) + "..."
+                                                            : lab.rentalPurpose}
                                                     </span>
-                                                    {request.rentalPurpose.length > 16 && (
-                                                        <span className="tooltiptext">{request.rentalPurpose}</span>
+                                                    {lab.rentalPurpose !== undefined && lab.rentalPurpose.length > 16 && (
+                                                        <span className="tooltiptext">{lab.rentalPurpose}</span>
                                                     )}
                                                 </S.Tooltip>
-                                                <p className="user_detail">{request.rentalDate}</p>
-                                                <p className="user_detail">{request.rentalStartTime}</p>
+                                                <p className="user_detail">{lab.rentalDate}</p>
+                                                <p className="user_detail">{lab.rentalStartTime}</p>
                                                 <div className="user_detail">
-                                                    {request.approvalRental && (
+                                                    {!lab.approvalRental && (
                                                         <button
                                                             className="approval_btn"
-                                                            onClick={() => handleActionClick(request.id, "apr")}
+                                                            onClick={() => handleActionClick(lab.id ? lab.id : -1, "apr")}
                                                         >
                                                             대여 승인
                                                         </button>
                                                     )}
-                                                    {request.deletionRental && (
+                                                    {lab.deletionRental && (
                                                         <button
                                                             className="deletion_btn"
-                                                            onClick={() => handleActionClick(request.id, "del")}
+                                                            onClick={() => handleActionClick(lab.id ? lab.id : -1, "del")}
                                                         >
                                                             대여 삭제
                                                         </button>
@@ -315,7 +336,7 @@ const RentManagement: React.FC = () => {
                         actionFunction={handleAction}
                     />
                 )}
-            </S.TopCont>
+            </S.TopCont >
         </>
     );
 };

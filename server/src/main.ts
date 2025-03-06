@@ -22,7 +22,7 @@ async function bootstrap() {
   )
   const config = new DocumentBuilder()
     .setTitle('GBSW_랩실대여 Api문서')
-    .setDescription('이걸 내가하네?')
+    .setDescription('')
     .setVersion('1.0')
     .addBearerAuth() // 인증 추가
     .build()

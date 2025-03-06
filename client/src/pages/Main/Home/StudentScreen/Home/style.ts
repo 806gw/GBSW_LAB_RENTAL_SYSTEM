@@ -98,7 +98,7 @@ export const RentCont = styled.div`
   height: 200px;
 
   .gbsw {
-    width: 75px;
+    width: 6rem;
   }
   .arrow {
     color: #7d7d7d;
@@ -111,7 +111,7 @@ export const LinkRent = styled(Link)`
   color: #00aa87;
   font-size: 20px;
   font-family: "Pretendard";
-  font-weight: 900;
+  font-weight: bolder;
   text-decoration: none;
   transition: color 0.12s ease-in;
 
@@ -198,6 +198,7 @@ export const RentalCont = styled.div`
   align-items: center;
   width: 100%;
   height: 50px;
+  min-height: 50px;
   border-radius: 10px;
   background-color: #474747;
   color: #fff;
@@ -245,9 +246,8 @@ export const RentalUserWrap = styled.div`
     position: relative;
   }
 
-  .delete_btn {
-    width: 20px;
-    cursor: pointer;
+  .gbsm_symbol {
+    width: 23px;
   }
 `;
 

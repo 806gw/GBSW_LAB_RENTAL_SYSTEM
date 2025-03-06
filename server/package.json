@@ -36,7 +36,6 @@
     "config": "^3.3.12",
     "express-basic-auth": "^1.2.1",
     "jsonwebtoken": "^9.0.2",
-    "mysql": "^2.18.1",
     "mysql2": "^3.11.4",
     "pg": "^8.13.1",
     "reflect-metadata": "^0.2.0",

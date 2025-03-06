@@ -3,8 +3,8 @@ import * as S from "./style";
 
 import React, { useState, useEffect } from 'react';
 import { customAxios } from "@src/api/axios";
-import GBSW from '@media/symbol-new-only.png';
-import trash from '@assets/trash.svg';
+import GBSW from '@media/GBSM.webp';
+import Symbol from "@media/symbol-new-only.png"
 import { FaArrowRight } from "react-icons/fa";
 import { useNavigate } from 'react-router-dom';
 import useAuth from '@src/hooks/useAuth';
@@ -26,9 +26,8 @@ interface Lab {
 }
 
 const StudentScreen: React.FC = () => {
-    const [isOpen, setOpen] = useState(false);
     const [rentalRequests, setRentalRequests] = useState<Lab[]>([]);
-    const [userId, setUserId] = useState<number | null>(null);
+
     const [isLoading, setIsLoading] = useState(false);
     const { getUsername } = useAuth();
     const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc');
@@ -68,13 +67,6 @@ const StudentScreen: React.FC = () => {
         }
     };
 
-    const openModal = (requestId: number) => {
-        setUserId(requestId);
-        setOpen(true);
-    };
-
-    const closeModal = () => setOpen(false);
-
     const sortedRequests = Array.isArray(rentalRequests)
         ? [...rentalRequests].sort((a, b) => {
             return sortOrder === 'asc'
@@ -85,45 +77,6 @@ const StudentScreen: React.FC = () => {
 
     const handleSortChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
         setSortOrder(event.target.value as 'asc' | 'desc');
-    };
-
-    const handleModalSuccess = () => {
-        toast.success('실습실 취소 요청이 성공적으로 되었습니다.', {
-            autoClose: 1000,
-            closeOnClick: false,
-            pauseOnHover: false,
-            closeButton: false,
-            transition: Flip,
-        });
-        fetchAvailableLabs();
-    };
-
-    const handleDelete = async (id: number) => {
-        try {
-            const accessToken = localStorage.getItem('accessToken');
-            const response = await customAxios.patch(`/lab/${id}`, {}, {
-                headers: {
-                    Authorization: `Bearer ${accessToken}`,
-                },
-            });
-
-            if (!response.data.auth) {
-                toast.error('본인이 신청한 실습실이 아닙니다.', {
-                    autoClose: 1000,
-                    closeOnClick: true,
-                    pauseOnHover: false,
-                    closeButton: false,
-                    transition: Flip,
-                })
-                throw new Error('자신이 신청한 실습실이 아닙니다.');
-            }
-
-            handleModalSuccess();
-        } catch (error: any) {
-            console.error('실습실 취소 실패', error.response?.data || error.message);
-        } finally {
-            closeModal();
-        }
     };
 
     return (
@@ -213,17 +166,9 @@ const StudentScreen: React.FC = () => {
                                             </S.Tooltip>
                                             <p className="user_detail">{request.rentalDate}</p>
                                             <p className="user_detail">{request.rentalStartTime}</p>
-                                            {request.deletionRental ? (
-                                                <div className='user_detail'>대기중</div>
-                                            ) : (
-                                                <div className="user_detail" onClick={() => openModal(request.userId)}>
-                                                    <img
-                                                        src={trash}
-                                                        alt="delete_img"
-                                                        className="delete_btn"
-                                                    />
-                                                </div>
-                                            )}
+                                            <div className="user_detail">
+                                                <img src={Symbol} alt="경소마고 로고" className="gbsm_symbol"/>
+                                            </div>
                                         </S.RentalUserWrap>
                                     ))}
                                 </S.RentalUserCont>
@@ -241,13 +186,6 @@ const StudentScreen: React.FC = () => {
                         </S.BodyWrap>
                     </S.Body>
                 </S.Parent>
-                <C.LabModal
-                    isOpen={isOpen}
-                    onClose={closeModal}
-                    userId={userId}
-                    onSuccess={handleModalSuccess}
-                    actionFunction={handleDelete}
-                />
             </S.TopCont>
         </>
     );

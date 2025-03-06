@@ -154,10 +154,6 @@ const RentManagement: React.FC = () => {
 
     }, [labs, filterType, sortOrder]);
 
-    const handleFilterChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-        setFilterType(event.target.value as "all" | "approval" | "deletion");
-    };
-
     const handleSortChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
         setSortOrder(event.target.value as "asc" | "desc");
     };
@@ -204,11 +200,6 @@ const RentManagement: React.FC = () => {
                             <span style={{ color: "#00aa87", fontWeight: "600" }}>실습실 대여 관리</span> 페이지입니다.
                         </p>
                         <div>
-                            <select id="filterType" value={filterType} onChange={handleFilterChange}>
-                                <option value="all">전체 보기</option>
-                                <option value="approval">승인만 보기</option>
-                                <option value="deletion">취소만 보기</option>
-                            </select>
                             <select id="sortOrder" value={sortOrder} onChange={handleSortChange}>
                                 <option value="asc">날짜 오름차순</option>
                                 <option value="desc">날짜 내림차순</option>

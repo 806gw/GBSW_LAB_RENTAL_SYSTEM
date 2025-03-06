@@ -33,7 +33,7 @@ export const SidebarWrap = styled.div`
   border-bottom: 1px #e7e7e7 solid;
 
   .school_logo {
-    width: 200px;
+    width: 180px;
   }
 `;
 
